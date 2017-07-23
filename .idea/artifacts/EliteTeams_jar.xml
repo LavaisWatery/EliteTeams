@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="EliteTeams:jar">
+    <output-path>$PROJECT_DIR$/../KitPvP/shared</output-path>
+    <root id="archive" name="EliteTeams.jar">
+      <element id="module-output" name="EliteTeams" />
+    </root>
+  </artifact>
+</component>
