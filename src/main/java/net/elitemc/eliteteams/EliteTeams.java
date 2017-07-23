@@ -12,7 +12,7 @@ public class EliteTeams extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        new Init();
+        new Init(this);
     }
 
     @Override

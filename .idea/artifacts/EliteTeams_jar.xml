@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/../KitPvP/shared</output-path>
     <root id="archive" name="EliteTeams.jar">
       <element id="module-output" name="EliteTeams" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/shared/fanciful-0.4.0-SNAPSHOT.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

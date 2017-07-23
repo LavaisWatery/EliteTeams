@@ -104,31 +104,6 @@ public enum AchievementType {
 
             return false;
         }
-    },
-
-    SELECT_KIT { //TODO
-        @Override
-        public boolean hasAchievement(TeamsPlayerWrapper wrapper, Object input) {
-            if(input instanceof String) {
-                return false;
-//                return ((KitPvPPlayerWrapper) wrapper).getSelectedKit().getName().equalsIgnoreCase((String) input); // TODO
-            }
-
-            return false;
-        }
-    },
-
-    KIT_KILLS { //TODO
-        @Override
-        public boolean hasAchievement(TeamsPlayerWrapper wrapper, Object input) {
-            if(input instanceof Map.Entry) {
-                Map.Entry<String, Integer> entry = ((Map.Entry<String, Integer>) input);
-
-                return wrapper.getKitKills(entry.getKey()) >= entry.getValue();
-            }
-
-            return false;
-        }
     };
 
     public abstract boolean hasAchievement(TeamsPlayerWrapper wrapper, Object input);

@@ -13,19 +13,24 @@ import net.elitemc.commons.util.wrapper.MongoDataObjectException;
 import net.elitemc.eliteteams.EliteTeams;
 import net.elitemc.eliteteams.util.AchievementType;
 import net.elitemc.eliteteams.util.MoveRequest;
+import net.elitemc.eliteteams.util.RankRewards;
 import net.elitemc.eliteteams.util.TeamsPlayerWrapper;
 import net.elitemc.origin.util.OriginPlayerWrapper;
 import net.elitemc.origin.util.event.OriginPlayerJoinEvent;
 import net.elitemc.origin.util.event.OriginPlayerUpdatedPlaytime;
+import net.elitemc.origin.util.event.PlayerGroupSwitchEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -85,6 +90,26 @@ public class TeamsPlayerHandler extends Handler {
     }
 
     @EventHandler
+    public void onGroupSwitch(PlayerGroupSwitchEvent event) {
+        Player player = event.getPlayer();
+
+        if(event.getFrom() != event.getTo()) {
+            TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
+            int maxWarps = RankRewards.DEFAULT.getMaxWarps();
+
+            try {
+                RankRewards rewards = RankRewards.valueOf(event.getTo().getGroupName().toUpperCase());
+
+                if(rewards != null) {
+                    maxWarps = rewards.getMaxWarps();
+                }
+            } catch (Exception ex) {}
+
+            wrapper.setMax_warps(maxWarps);
+        }
+    }
+
+    @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
@@ -121,8 +146,48 @@ public class TeamsPlayerHandler extends Handler {
         }, MoreExecutors.sameThreadExecutor());
     }
 
+    @EventHandler
+    public void onPlayerTeleport(PlayerTeleportEvent event) {
+        Player player = event.getPlayer();
+        if (player.isDead()) return;
+        MoveRequest request = new MoveRequest(new PlayerMoveEvent(player, event.getTo(), event.getTo()));
+
+        Bukkit.getScheduler().runTaskAsynchronously(EliteTeams.getInstance(), request);
+    }
+
     public ConcurrentHashMap<UUID, MoveRequest> getCurrentlyProcessing() {
         return currentlyProcessing;
+    }
+
+    /**
+     * State handling
+     */
+
+    @EventHandler
+    public void onFoodLoss(FoodLevelChangeEvent event) {
+        if(event.getEntity() instanceof Player) {
+            Player player = (Player) event.getEntity();
+
+            if(player.getFoodLevel() > event.getFoodLevel()) {
+                TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
+
+                if(wrapper.getPlayerState() == TeamsPlayerWrapper.TeamsPlayerState.PROTECTED) {
+                    event.setCancelled(true);
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onEntityDamage(EntityDamageEvent event) {
+        if((event.getCause() != EntityDamageEvent.DamageCause.VOID && event.getCause() != EntityDamageEvent.DamageCause.CUSTOM) && event.getEntity() instanceof Player) {
+            Player player = (Player) event.getEntity();
+            TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
+
+            if(wrapper.getPlayerState() == TeamsPlayerWrapper.TeamsPlayerState.PROTECTED) {
+                event.setCancelled(true);
+            }
+        }
     }
 
     /**

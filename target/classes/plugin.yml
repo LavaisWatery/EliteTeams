@@ -1,0 +1,4 @@
+name: EliteTeams
+main: net.elitemc.eliteteams.EliteTeams
+version: 1.0
+depend: [Origin, Commons, Pure]

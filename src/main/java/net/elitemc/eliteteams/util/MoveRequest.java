@@ -48,9 +48,9 @@ public class MoveRequest extends AbstractFuture implements Runnable, ListenableF
 
         wrapper.setLastBlock(event.getTo());
 
-        if ((wrapper.getPlayerState() == TeamsPlayerWrapper.KitsPlayerState.PROTECTED || player.getGameMode() == GameMode.CREATIVE)) {
+        if ((wrapper.getPlayerState() == TeamsPlayerWrapper.TeamsPlayerState.PROTECTED || player.getGameMode() == GameMode.CREATIVE)) {
             if (!StaffHandler.getInstance().getVanishedStaffMembers().containsKey(wrapper.getID()) && !cancelNextVel && player.getGameMode() != GameMode.CREATIVE && RegionHandler.getInstance().allows(event.getTo(), FlagType.PVP)) {
-                wrapper.setPlayerState(TeamsPlayerWrapper.KitsPlayerState.UNPROTECTED);
+                wrapper.setPlayerState(TeamsPlayerWrapper.TeamsPlayerState.UNPROTECTED);
                 wrapper.setLastUnprotected(event.getTo());
                 MessageUtility.message(player, false, ChatColor.GRAY + "You are no longer protected.");
             }

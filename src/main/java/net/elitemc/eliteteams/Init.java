@@ -4,18 +4,22 @@ import net.elitemc.commons.handler.BoardHandler;
 import net.elitemc.commons.util.Handler;
 import net.elitemc.commons.util.PlayerUtility;
 import net.elitemc.commons.util.abstr.AbstractInit;
+import net.elitemc.commons.util.abstr.AbstractPlayerNear;
 import net.elitemc.commons.util.cmdfrmwrk.BaseCommand;
 import net.elitemc.commons.util.cmdfrmwrk.CommandRegistrar;
 import net.elitemc.commons.util.scoreboard.V2.Board;
 import net.elitemc.commons.util.scoreboard.V2.BoardEntry;
 import net.elitemc.commons.util.scoreboard.V2.BoardPreset;
-import net.elitemc.eliteteams.command.Command_spawn;
+import net.elitemc.eliteteams.command.*;
+import net.elitemc.eliteteams.configuration.TeamsConfiguration;
 import net.elitemc.eliteteams.handler.AchievementHandler;
 import net.elitemc.eliteteams.handler.OptionsHandler;
 import net.elitemc.eliteteams.handler.RegionHandler;
 import net.elitemc.eliteteams.handler.TeamsPlayerHandler;
 import net.elitemc.eliteteams.util.TeamsPlayerWrapper;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -37,15 +41,50 @@ public class Init extends AbstractInit {
         registerCommands();
     }
 
+    private TeamsConfiguration configuration = null;
+
     private BoardHandler boardHandler = BoardHandler.getInstance();
 
     @Override
     public void initInstances() {
+        configuration = new TeamsConfiguration(this);
+
         // init handlers
         initHandler(new RegionHandler(), true);
         initHandler(new TeamsPlayerHandler(), true);
         initHandler(new AchievementHandler(), true);
         initHandler(new OptionsHandler(), true);
+
+        // init nearby
+        PlayerUtility.setPlayerNear(new AbstractPlayerNear() {
+            @Override
+            public boolean isPlayerNear(Player player) {
+                boolean nearby = false;
+                if(player.getGameMode() == GameMode.CREATIVE || TeamsPlayerHandler.getInstance().getPlayerWrapper(player).getPlayerState() == TeamsPlayerWrapper.TeamsPlayerState.PROTECTED) return false;
+//                if(PluginUtility.getWorldGuard().getRegionManager(player.getWorld()).getApplicableRegions(player.getLocation()).getFlag(DefaultFlag.POTION_SPLASH) != null && !PluginUtility.getWorldGuard().getRegionManager(player.getWorld()).getApplicableRegions(player.getLocation()).allows(DefaultFlag.POTION_SPLASH)) {
+//                    if(!checkState)
+//                        return false;
+//                    else {
+//                        if(PlayerHandler.getInstance().getPlayerState(player) != PlayerState.OUTSIDE) {
+//                            return false;
+//                        }
+//                    }
+//                }
+
+                for (Entity e : player.getNearbyEntities(40.0D, 40.0D, 40.0D)) {
+                    if (e instanceof Player && e != player) {
+                        Player temp = (Player) e;
+                        TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(temp);
+//                        if (temp.getGameMode() == GameMode.CREATIVE || PlayerManager.getInstance().getVanishedPlayers().contains(temp.getUniqueId()) || SpectateHandler.getInstance().getSpectateDate().containsKey(temp.getUniqueId())) continue;
+                        if (temp.getGameMode() == GameMode.CREATIVE || wrapper.getPlayerState() == TeamsPlayerWrapper.TeamsPlayerState.PROTECTED) continue;
+                        else {
+                            nearby = true;
+                        }
+                    }
+                }
+                return nearby;
+            }
+        });
 
         // init board
         BoardPreset def = null;
@@ -76,6 +115,20 @@ public class Init extends AbstractInit {
                     @Override
                     public String getSuffix() {
                         return ChatColor.RESET + "none";
+                    }
+                });
+
+                board.addEntry("protection", 13, new BoardEntry.EntryInfo() {
+                    TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(board.getId());
+
+                    @Override
+                    public String getPrefix() {
+                        return ChatColor.GOLD.toString() + ChatColor.BOLD + "Protected: ";
+                    }
+
+                    @Override
+                    public String getSuffix() {
+                        return ChatColor.RESET + (wrapper.getPlayerState() == TeamsPlayerWrapper.TeamsPlayerState.PROTECTED ? "yes" : "no");
                     }
                 });
 
@@ -128,7 +181,11 @@ public class Init extends AbstractInit {
 
     @Override
     public void registerCommands() {
+        registerCommand("warp", new Command_warp());
         registerCommand("spawn", new Command_spawn());
+        registerCommand("yes", new Command_yes());
+        registerCommand("no", new Command_no());
+        registerCommand("sets", new Command_sets());
     }
 
     @Override
@@ -152,6 +209,9 @@ public class Init extends AbstractInit {
         }
     }
 
+    public TeamsConfiguration getConfiguration() {
+        return configuration;
+    }
 
     public static Init getInstance() {
         return instance;

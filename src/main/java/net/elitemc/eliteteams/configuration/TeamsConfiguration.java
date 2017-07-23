@@ -1,8 +1,8 @@
 package net.elitemc.eliteteams.configuration;
 
-import net.elitemc.commons.Init;
 import net.elitemc.commons.util.PluginConfiguration;
 import net.elitemc.eliteteams.EliteTeams;
+import net.elitemc.eliteteams.Init;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**

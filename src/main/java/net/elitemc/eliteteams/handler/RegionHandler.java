@@ -147,7 +147,7 @@ public class RegionHandler extends Handler {
                 Player target = (Player) entity;
                 TeamsPlayerWrapper wrap = TeamsPlayerHandler.getInstance().getPlayerWrapper(target);
 
-                if(wrap.getPlayerState() == TeamsPlayerWrapper.KitsPlayerState.PROTECTED) event.setIntensity(target, 0);
+                if(wrap.getPlayerState() == TeamsPlayerWrapper.TeamsPlayerState.PROTECTED) event.setIntensity(target, 0);
             }
         }
     }

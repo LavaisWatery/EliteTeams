@@ -15,5 +15,6 @@
     <orderEntry type="library" name="paperspigot-1.7.10-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Commons" level="project" />
     <orderEntry type="library" name="Pure-bukkit" level="project" />
+    <orderEntry type="library" name="fanciful-0.4.0-SNAPSHOT" level="project" />
   </component>
 </module>

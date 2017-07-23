@@ -8,8 +8,6 @@ import net.elitemc.commons.handler.BoardHandler;
 import net.elitemc.commons.util.LocationUtility;
 import net.elitemc.commons.util.MessageUtility;
 import net.elitemc.commons.util.json.JSONObject;
-import net.elitemc.commons.util.mongo.MongoDataObject;
-import net.elitemc.commons.util.mongo.pooling.ActionChange;
 import net.elitemc.commons.util.mongo.pooling.PoolAction;
 import net.elitemc.commons.util.scoreboard.V2.Board;
 import net.elitemc.commons.util.scoreboard.V2.BoardEntry;
@@ -21,7 +19,6 @@ import net.elitemc.eliteteams.handler.AchievementHandler;
 import net.elitemc.eliteteams.handler.RegionHandler;
 import net.elitemc.eliteteams.handler.TeamsPlayerHandler;
 import net.elitemc.eliteteams.util.region.FlagType;
-import net.elitemc.eliteteams.util.region.Region;
 import net.elitemc.eliteteams.util.region.RegionSession;
 import net.elitemc.eliteteams.util.region.RegionSet;
 import net.elitemc.origin.Init;
@@ -34,7 +31,6 @@ import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Player;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by LavaisWatery on 2017-07-22.
@@ -55,16 +51,18 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
 
     private BoardHandler boardHandler = BoardHandler.getInstance();
 
-    public static String UNPROTECTED_MESSAGE = ChatColor.GRAY + "You are no longer protected.";
+    public static String UNPROTECTED_MESSAGE = ChatColor.GRAY + "You are no longer protected.",
+            PROTECTION_APPLIED = ChatColor.GRAY + "You have regained spawn protection.";
 
-    private int kills = 0, deaths = 0, current_killstreak = 0, top_killstreak = 0, balance = 0;
+    private int kills = 0, deaths = 0, current_killstreak = 0, top_killstreak = 0, balance = 0, max_warps = 5;
 
     private int basic_keys = 0, omega_keys = 0;
 
     private TeamsPlayerWrapper kitWrapper = null;
     private OriginPlayerWrapper originWrapper = null;
 
-    private KitsPlayerState playerState = KitsPlayerState.PROTECTED;
+    private TeamsPlayerState playerState = TeamsPlayerState.PROTECTED;
+    private Confirmation confirmation = null;
 
     private TrailParticles selectedTrailParticle = null;
 
@@ -91,6 +89,7 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
     private HashMap<String, HashMap<String, JSONObject>> rewardedItems = new HashMap<>();
 
     private PlayerOptions playerOptions;
+    private PlayerWarps playerWarps;
 
     public void cleanPlayer() {
         cleanPlayer(null);
@@ -111,7 +110,7 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
 
             if(applicable != null) {
                 if(!applicable.allows(FlagType.PVP)) {
-                    setPlayerState(KitsPlayerState.PROTECTED);
+                    setPlayerState(TeamsPlayerState.PROTECTED);
 
                     MoveRequest lastRequest = TeamsPlayerHandler.getInstance().getCurrentlyProcessing().get(player.getUniqueId());
 
@@ -121,6 +120,21 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
                 }
             }
         }
+    }
+
+    public void doProtectionApplyCheck(Player player, Location target) {
+        if(!RegionHandler.getInstance().getRegionsApplicable(target).allows(FlagType.PVP)) {
+            setPlayerState(TeamsPlayerState.PROTECTED);
+            MessageUtility.message(player, false, PROTECTION_APPLIED);
+        }
+    }
+
+    public Confirmation getConfirmation() {
+        return confirmation;
+    }
+
+    public void setConfirmation(Confirmation confirmation) {
+        this.confirmation = confirmation;
     }
 
     public long getLastKill() {
@@ -206,6 +220,15 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
         this.lastDeath = lastDeath;
     }
 
+    public int getMax_warps() {
+        return max_warps;
+    }
+
+    public void setMax_warps(int max_warps) {
+        this.max_warps = max_warps;
+        queueAction(PoolAction.SAVE);
+    }
+
     public int getBasic_keys() {
         return basic_keys;
     }
@@ -242,6 +265,7 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
                 if(fetched.containsKey("balance")) balance = fetched.getInt("balance");
                 if(fetched.containsKey("basic_keys")) basic_keys = fetched.getInt("basic_keys");
                 if(fetched.containsKey("omega_keys")) omega_keys = fetched.getInt("omega_keys");
+                if(fetched.containsKey("max_warps")) max_warps = fetched.getInt("max_warps");
 
                 if(fetched.containsKey("description")) description = fetched.getString("description");
 
@@ -271,6 +295,13 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
                     for(PlayerOptions.OptionType type : PlayerOptions.OptionType.values()) {
                         type.initOption(playerOptions);
                     }
+                }
+
+                if(fetched.containsKey("playerwarps")) {
+                    playerWarps = new PlayerWarps(this, fetched.getString("playerwarps"));
+                }
+                else {
+                    playerWarps = new PlayerWarps(this);
                 }
 
                 /**
@@ -306,6 +337,7 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
         }
         else {
             playerOptions = new PlayerOptions(this);
+            playerWarps = new PlayerWarps(this);
 
             if(originWrapper.getPermissionsGroup() != null) {
                 try {
@@ -390,12 +422,17 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
         return originWrapper;
     }
 
-    public KitsPlayerState getPlayerState() {
+    public TeamsPlayerState getPlayerState() {
         return playerState;
     }
 
-    public void setPlayerState(KitsPlayerState playerState) {
+    public PlayerWarps getPlayerWarps() {
+        return playerWarps;
+    }
+
+    public void setPlayerState(TeamsPlayerState playerState) {
         this.playerState = playerState;
+        boardHandler.getPlayerBoard(getID()).getBufferedObjective().updateEntry("protection", "");
     }
 
     public Location getLastBlock() {
@@ -505,18 +542,6 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
             case MAKE_A_TEAM:
             {
                 return input != null;
-            }
-            case KIT_KILLS:
-            {
-                if(achievement.getTarget() instanceof Map.Entry && input instanceof Map.Entry) {
-                    Map.Entry<String, Integer> achievementTarget = ((Map.Entry<String, Integer>) achievement.getTarget());
-                    Map.Entry<String, Integer> inputTarg = ((Map.Entry<String, Integer>) input);
-
-                    if(achievementTarget.getKey().equalsIgnoreCase(inputTarg.getKey())) {
-                        return inputTarg.getValue() >= achievementTarget.getValue();
-                    }
-                }
-                return false;
             }
         }
 
@@ -633,7 +658,7 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
         this.completedAchievements = completedAchievements;
     }
 
-    public enum KitsPlayerState {
+    public enum TeamsPlayerState {
         PROTECTED,
 
         UNPROTECTED;
@@ -662,6 +687,7 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
         object.put("balance", balance);
         object.put("basic_keys", basic_keys);
         object.put("omega_keys", omega_keys);
+        object.put("max_warps", max_warps);
         object.put("lastkit", lastKit);
 
         object.put("description", description);
@@ -698,6 +724,10 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
             }
 
             object.put("playerrewards", rewards);
+        }
+
+        if(playerWarps != null && !playerWarps.getPlayerWarps().isEmpty()) {
+            object.put("playerwarps", playerWarps.serialize().toString());
         }
 
         return object;
