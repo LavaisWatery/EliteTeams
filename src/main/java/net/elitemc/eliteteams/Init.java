@@ -183,6 +183,7 @@ public class Init extends AbstractInit {
     public void registerCommands() {
         registerCommand("warp", new Command_warp());
         registerCommand("spawn", new Command_spawn());
+        registerCommand("track", new Command_track());
         registerCommand("yes", new Command_yes());
         registerCommand("no", new Command_no());
         registerCommand("sets", new Command_sets());
