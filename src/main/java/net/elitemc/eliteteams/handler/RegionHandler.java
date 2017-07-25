@@ -12,12 +12,18 @@ import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
+import org.bukkit.event.hanging.HangingPlaceEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -149,6 +155,147 @@ public class RegionHandler extends Handler {
 
                 if(wrap.getPlayerState() == TeamsPlayerWrapper.TeamsPlayerState.PROTECTED) event.setIntensity(target, 0);
             }
+        }
+    }
+
+    /**
+     * Block placement
+     */
+
+    @EventHandler
+    public void onEntityDamageEvent(EntityDamageByEntityEvent event) {
+        if(event.getDamager() instanceof Player) {
+            Player damager = (Player) event.getDamager();
+            TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(damager);
+
+            if(event.getEntity() instanceof EnderCrystal) {
+                if(!getRegionsApplicable(event.getEntity().getLocation()).hasRegionType(Region.RegionType.SPAWN)) return;
+
+                if(!wrapper.isBuilding()) {
+                    event.setCancelled(true);
+                }
+            }
+        }
+        if(event.getDamager() instanceof Projectile) {
+            Projectile proj = (Projectile) event.getDamager();
+            if(proj.getShooter() instanceof Player) {
+                Player shooter = (Player) proj.getShooter();
+                TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(shooter);
+                if(event.getEntity() instanceof EnderCrystal) {
+                    if(!getRegionsApplicable(event.getEntity().getLocation()).hasRegionType(Region.RegionType.SPAWN)) return;
+
+                    if(!wrapper.isBuilding()) {
+                        event.setCancelled(true);
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerTeleportBuild(PlayerTeleportEvent event) {
+        Player player = event.getPlayer();
+        if(event.getCause() == PlayerTeleportEvent.TeleportCause.UNKNOWN) return;
+        TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
+        if(wrapper != null)
+            wrapper.setBuilding(false);
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event){
+        Player player = event.getPlayer();
+        TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
+
+        if(!getRegionsApplicable(event.getBlock().getLocation()).hasRegionType(Region.RegionType.SPAWN) && !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN)) return;
+
+        if(!wrapper.isBuilding()) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event){
+        Player player = event.getPlayer();
+        TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
+
+        if(!getRegionsApplicable(event.getBlock().getLocation()).hasRegionType(Region.RegionType.SPAWN) && !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN)) return;
+
+        if(!wrapper.isBuilding()) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onBucketEmpty(PlayerBucketEmptyEvent event){
+        Player player = event.getPlayer();
+        TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
+
+        if(!getRegionsApplicable(event.getBlockClicked().getLocation()).hasRegionType(Region.RegionType.SPAWN) && !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN)) return;
+
+        if(!wrapper.isBuilding()) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPaintingBreakByEntity(HangingBreakByEntityEvent event) {
+        if(event.getRemover() instanceof Player) {
+            Player player = (Player) event.getRemover();
+            TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
+
+            if(!getRegionsApplicable(event.getEntity().getLocation()).hasRegionType(Region.RegionType.SPAWN) && !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN)) return;
+
+            if(!wrapper.isBuilding()) {
+                event.setCancelled(true);
+            }
+        }
+        if(event.getRemover() instanceof Projectile) {
+            Projectile proj = (Projectile) event.getRemover();
+
+            if(proj.getShooter() instanceof Player) {
+                Player player = (Player) proj.getShooter();
+                TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
+
+                if(!getRegionsApplicable(event.getEntity().getLocation()).hasRegionType(Region.RegionType.SPAWN) && !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN)) return;
+
+                if(!wrapper.isBuilding()) {
+                    event.setCancelled(true);
+                }
+            }
+            else {
+                if(!getRegionsApplicable(event.getEntity().getLocation()).hasRegionType(Region.RegionType.SPAWN)) return;
+
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onItemRemoveFromItemFrame(EntityDamageByEntityEvent event) {
+        Entity e = event.getEntity();
+        if(e instanceof ItemFrame) {
+            if(event.getDamager() instanceof Player) {
+                Player player = (Player) event.getDamager();
+                TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
+
+                if(!getRegionsApplicable(event.getEntity().getLocation()).hasRegionType(Region.RegionType.SPAWN) && !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN)) return;
+
+                if(!wrapper.isBuilding()) {
+                    event.setCancelled(true);
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPaintingPlace(HangingPlaceEvent event) {
+        Player player = event.getPlayer();
+        TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
+
+        if(!getRegionsApplicable(event.getEntity().getLocation()).hasRegionType(Region.RegionType.SPAWN) && !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN)) return;
+
+        if(!wrapper.isBuilding()) {
+            event.setCancelled(true);
         }
     }
 

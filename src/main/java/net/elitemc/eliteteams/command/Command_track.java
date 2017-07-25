@@ -74,6 +74,7 @@ public class Command_track extends BaseCommand {
                     }
                 }
 
+                break;
             }
             default: {
                 if(PlayerUtility.doesPlayerExist(sender, args[0])) {

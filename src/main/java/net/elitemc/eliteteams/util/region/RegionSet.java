@@ -47,6 +47,13 @@ public class RegionSet extends HashSet<Region> {
         return lst;
     }
 
+    public boolean hasRegionType(Region.RegionType type) {
+        for(Region region : this) {
+            if(region.getType() == type) return true;
+        }
+        return false;
+    }
+
     public Location getPoint() {
         return point;
     }
