@@ -28,8 +28,12 @@ public class OptionsHandler extends Handler {
 
     public static HashMap<Material, PlayerOptions.OptionType> optionMatchedMaterial = new HashMap<Material, PlayerOptions.OptionType>() {{
         put(Material.DIAMOND_SWORD, PlayerOptions.OptionType.KIT);
-        put(Material.PAPER, PlayerOptions.OptionType.SCOREBOARD);
-        put(Material.getMaterial(2256), PlayerOptions.OptionType.TOGGLE_PMS);
+        put(Material.REDSTONE_COMPARATOR, PlayerOptions.OptionType.SCOREBOARD);
+        put(Material.PAPER, PlayerOptions.OptionType.TOGGLE_PMS);
+        put(Material.DEAD_BUSH, PlayerOptions.OptionType.DEATH_MESSAGES);
+        put(Material.getMaterial(175), PlayerOptions.OptionType.ALWAYS_SUNNY);
+        put(Material.IRON_CHESTPLATE, PlayerOptions.OptionType.TEAMS);
+        put(Material.STONE_PLATE, PlayerOptions.OptionType.WARPS);
     }};
 
     @Override
@@ -43,13 +47,10 @@ public class OptionsHandler extends Handler {
     }
 
     public void openPlayerOptions(Player player, PlayerOptions options) {
-        Inventory inventory = Bukkit.createInventory(player, 9 * 3, OPTIONS_INVENTORY_TITLE);
-
-        int startIndex = 11;
+        Inventory inventory = Bukkit.createInventory(player, 9 * 5, OPTIONS_INVENTORY_TITLE);
 
         for(PlayerOptions.OptionType type : PlayerOptions.OptionType.values()) {
-            inventory.setItem(startIndex, type.createItem(options));
-            startIndex++;
+            inventory.setItem(type.getSlot(), type.createItem(options));
         }
 
         player.openInventory(inventory);

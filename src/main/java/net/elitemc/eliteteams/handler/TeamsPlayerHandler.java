@@ -8,10 +8,7 @@ import net.elitemc.commons.util.mongo.MongoDataObject;
 import net.elitemc.commons.util.mongo.pooling.ActionChange;
 import net.elitemc.commons.util.wrapper.MongoDataObjectException;
 import net.elitemc.eliteteams.EliteTeams;
-import net.elitemc.eliteteams.util.AchievementType;
-import net.elitemc.eliteteams.util.MoveRequest;
-import net.elitemc.eliteteams.util.RankRewards;
-import net.elitemc.eliteteams.util.TeamsPlayerWrapper;
+import net.elitemc.eliteteams.util.*;
 import net.elitemc.origin.util.OriginPlayerWrapper;
 import net.elitemc.origin.util.event.OriginPlayerJoinEvent;
 import net.elitemc.origin.util.event.OriginPlayerUpdatedPlaytime;
@@ -136,6 +133,9 @@ public class TeamsPlayerHandler extends Handler {
         Player player = event.getPlayer();
 
         validate(player);
+
+        BoardHandler handler = BoardHandler.getInstance();
+        handler.getDefaultPreset().apply(handler.getPlayerBoard(player));
     }
 
     @EventHandler
@@ -285,8 +285,23 @@ public class TeamsPlayerHandler extends Handler {
         Player player = event.getEntity();
         TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
 
+        broadcastDeath(event);
         wrapper.setBuilding(false);
         wrapper.cleanPearl(player);
+    }
+
+    public void broadcastDeath(PlayerDeathEvent event) {
+        String message = event.getDeathMessage();
+
+        event.setDeathMessage("");
+
+        for(Player player : PlayerUtility.getOnlinePlayers()) {
+            TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
+
+            if(((boolean) PlayerOptions.OptionType.DEATH_MESSAGES.getCurrent(wrapper.getPlayerOptions()))) {
+                player.sendMessage(message);
+            }
+        }
     }
 
     /**
