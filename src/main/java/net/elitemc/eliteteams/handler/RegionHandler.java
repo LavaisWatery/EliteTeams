@@ -26,6 +26,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -73,7 +74,7 @@ public class RegionHandler extends Handler {
 
     public RegionSet getRegionsApplicable(Location location) {
         List<Region> chunked = getChunkRegions(location);
-        if(chunked == null || chunked.isEmpty()) return null;
+        if(chunked == null || chunked.isEmpty()) return new RegionSet(location, Arrays.asList());
         List<Region> regions = new ArrayList<>();
         for(Region region : chunked) {
             if(region.getCuboid().contains(location)) regions.add(region);
@@ -206,7 +207,7 @@ public class RegionHandler extends Handler {
         Player player = event.getPlayer();
         TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
 
-        if(!getRegionsApplicable(event.getBlock().getLocation()).hasRegionType(Region.RegionType.SPAWN) && !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN)) return;
+        if(!getRegionsApplicable(event.getBlock().getLocation()).hasRegionType(Region.RegionType.SPAWN) && (wrapper.getPlayerState() == TeamsPlayerWrapper.TeamsPlayerState.UNPROTECTED || !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN))) return;
 
         if(!wrapper.isBuilding()) {
             event.setCancelled(true);
@@ -218,7 +219,7 @@ public class RegionHandler extends Handler {
         Player player = event.getPlayer();
         TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
 
-        if(!getRegionsApplicable(event.getBlock().getLocation()).hasRegionType(Region.RegionType.SPAWN) && !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN)) return;
+        if(!getRegionsApplicable(event.getBlock().getLocation()).hasRegionType(Region.RegionType.SPAWN) && (wrapper.getPlayerState() == TeamsPlayerWrapper.TeamsPlayerState.UNPROTECTED || !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN))) return;
 
         if(!wrapper.isBuilding()) {
             event.setCancelled(true);
@@ -230,7 +231,7 @@ public class RegionHandler extends Handler {
         Player player = event.getPlayer();
         TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
 
-        if(!getRegionsApplicable(event.getBlockClicked().getLocation()).hasRegionType(Region.RegionType.SPAWN) && !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN)) return;
+        if(!getRegionsApplicable(event.getBlockClicked().getLocation()).hasRegionType(Region.RegionType.SPAWN) && (wrapper.getPlayerState() == TeamsPlayerWrapper.TeamsPlayerState.UNPROTECTED || !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN))) return;
 
         if(!wrapper.isBuilding()) {
             event.setCancelled(true);
@@ -243,7 +244,8 @@ public class RegionHandler extends Handler {
             Player player = (Player) event.getRemover();
             TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
 
-            if(!getRegionsApplicable(event.getEntity().getLocation()).hasRegionType(Region.RegionType.SPAWN) && !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN)) return;
+
+            if(!getRegionsApplicable(event.getEntity().getLocation()).hasRegionType(Region.RegionType.SPAWN) && (wrapper.getPlayerState() == TeamsPlayerWrapper.TeamsPlayerState.UNPROTECTED || !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN))) return;
 
             if(!wrapper.isBuilding()) {
                 event.setCancelled(true);
@@ -256,7 +258,7 @@ public class RegionHandler extends Handler {
                 Player player = (Player) proj.getShooter();
                 TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
 
-                if(!getRegionsApplicable(event.getEntity().getLocation()).hasRegionType(Region.RegionType.SPAWN) && !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN)) return;
+                if(!getRegionsApplicable(event.getEntity().getLocation()).hasRegionType(Region.RegionType.SPAWN) && (wrapper.getPlayerState() == TeamsPlayerWrapper.TeamsPlayerState.UNPROTECTED || !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN))) return;
 
                 if(!wrapper.isBuilding()) {
                     event.setCancelled(true);
@@ -278,7 +280,7 @@ public class RegionHandler extends Handler {
                 Player player = (Player) event.getDamager();
                 TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
 
-                if(!getRegionsApplicable(event.getEntity().getLocation()).hasRegionType(Region.RegionType.SPAWN) && !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN)) return;
+                if(!getRegionsApplicable(event.getEntity().getLocation()).hasRegionType(Region.RegionType.SPAWN) && (wrapper.getPlayerState() == TeamsPlayerWrapper.TeamsPlayerState.UNPROTECTED || !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN))) return;
 
                 if(!wrapper.isBuilding()) {
                     event.setCancelled(true);
@@ -292,7 +294,7 @@ public class RegionHandler extends Handler {
         Player player = event.getPlayer();
         TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
 
-        if(!getRegionsApplicable(event.getEntity().getLocation()).hasRegionType(Region.RegionType.SPAWN) && !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN)) return;
+        if(!getRegionsApplicable(event.getEntity().getLocation()).hasRegionType(Region.RegionType.SPAWN) && (wrapper.getPlayerState() == TeamsPlayerWrapper.TeamsPlayerState.UNPROTECTED || !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN))) return;
 
         if(!wrapper.isBuilding()) {
             event.setCancelled(true);
