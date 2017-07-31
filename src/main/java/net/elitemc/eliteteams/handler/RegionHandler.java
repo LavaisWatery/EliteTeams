@@ -3,21 +3,21 @@ package net.elitemc.eliteteams.handler;
 import net.elitemc.commons.util.*;
 import net.elitemc.eliteteams.configuration.RegionConfiguration;
 import net.elitemc.eliteteams.util.TeamsPlayerWrapper;
-import net.elitemc.eliteteams.util.region.FlagType;
-import net.elitemc.eliteteams.util.region.Region;
-import net.elitemc.eliteteams.util.region.RegionSession;
-import net.elitemc.eliteteams.util.region.RegionSet;
+import net.elitemc.eliteteams.util.region.*;
 import net.elitemc.eliteteams.util.region.event.SelectionEvent;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
@@ -160,6 +160,33 @@ public class RegionHandler extends Handler {
     }
 
     /**
+     * Explosion flag
+     */
+
+    @EventHandler
+    public void onEntityExplode(EntityExplodeEvent event) {
+        HashMap<Chunk, RegionSet> sets = new HashMap<>();
+        List<Block> clear = new ArrayList<>();
+
+        for(Block block : event.blockList()) {
+            Chunk chunk = block.getChunk();
+            RegionSet set = sets.get(chunk);
+
+            if(set == null) {
+                sets.put(chunk, set = getRegionsApplicable(block.getLocation()));
+            }
+
+            if(set != null && set.dissallows(FlagType.EXPLOSION)) {
+                clear.add(block);
+            }
+        }
+
+        for(Block b : clear) {
+            event.blockList().remove(b);
+        }
+    }
+
+    /**
      * Block placement
      */
 
@@ -234,6 +261,15 @@ public class RegionHandler extends Handler {
         if(!getRegionsApplicable(event.getBlockClicked().getLocation()).hasRegionType(Region.RegionType.SPAWN) && (wrapper.getPlayerState() == TeamsPlayerWrapper.TeamsPlayerState.UNPROTECTED || !getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN))) return;
 
         if(!wrapper.isBuilding()) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onFlowChange(BlockFromToEvent event) {
+        RegionSet app = getRegionsApplicable(event.getToBlock().getLocation());
+
+        if(app != null && app.dissallows(FlagType.FLOW)) {
             event.setCancelled(true);
         }
     }

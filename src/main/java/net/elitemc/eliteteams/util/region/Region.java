@@ -2,6 +2,7 @@ package net.elitemc.eliteteams.util.region;
 
 import net.elitemc.commons.util.Cuboid;
 import net.elitemc.commons.util.MessageUtility;
+import net.elitemc.commons.util.PlayerUtility;
 import net.elitemc.commons.util.StringUtility;
 import net.elitemc.commons.util.interf.JsonSerializable;
 import net.elitemc.commons.util.json.JSONObject;
@@ -264,7 +265,9 @@ public class Region implements JsonSerializable, IItem {
         if(rgOj.has("type")) {
             try {
                 this.type = RegionType.valueOf(rgOj.getString("type"));
-            } catch (Exception ex) { }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
         if(rgOj.has("flags")) {
             JSONObject flagOj = rgOj.getJSONObject("flags");
@@ -280,7 +283,9 @@ public class Region implements JsonSerializable, IItem {
 
                         regionFlags.put(type, flag);
                     }
-                } catch (Exception ex) { }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }

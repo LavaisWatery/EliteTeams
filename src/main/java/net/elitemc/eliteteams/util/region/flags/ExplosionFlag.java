@@ -8,12 +8,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * Created by LavaisWatery on 2017-06-23.
+ * Created by LavaisWatery on 2017-07-31.
  */
-public class PvPFlag extends RegionFlag {
+public class ExplosionFlag extends RegionFlag {
 
-    public PvPFlag(Region region) {
-        super(region, FlagType.PVP);
+    public ExplosionFlag(Region region) {
+        super(region, FlagType.EXPLOSION);
     }
 
     private boolean allowed = false;
@@ -25,7 +25,7 @@ public class PvPFlag extends RegionFlag {
 
     @Override
     public String prettyItemDisplay() {
-        return "PvP: " + (allowed ? "allow" : "deny");
+        return "Explosion: " + (allowed ? "allow" : "deny");
     }
 
     @Override

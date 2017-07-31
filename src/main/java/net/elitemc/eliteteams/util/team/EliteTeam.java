@@ -5,6 +5,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import mkremins.fanciful.FancyMessage;
+import net.elitemc.commons.util.FakeLocation;
 import net.elitemc.commons.util.MessageUtility;
 import net.elitemc.commons.util.mongo.MongoDataObject;
 import net.elitemc.commons.util.mongo.pooling.PoolAction;
@@ -16,6 +17,8 @@ import net.elitemc.eliteteams.util.team.excep.TeamInvitePlayerException;
 import net.elitemc.origin.Init;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
@@ -31,6 +34,16 @@ public class EliteTeam extends MongoDataObject {
         this.teamName = teamName;
     }
 
+    public static HashMap<Integer, String> rankNames = null;
+
+    static {
+        rankNames = new HashMap<Integer, String>() {{
+            put(0, "member");
+            put(1, "manager");
+            put(2, "owner");
+        }};
+    }
+
     public static String TEAM_COLLECTION = "teamsdata";
     //TODO make it possible to configure max teams + other
     public static int MAX_PLAYERS = 5, MAX_TEAMNAME_LENGTH = 14, MIN_TEAMNAME_LENGTH = 3;
@@ -39,6 +52,9 @@ public class EliteTeam extends MongoDataObject {
 
     private String teamName;
     private String description = "";
+    private String password = "";
+
+    private Location headquarters = null, rally = null;
 
     private HashMap<UUID, Long> playerInvites = new HashMap<>();
     private List<UUID> teamChat = new ArrayList<>();
@@ -48,6 +64,31 @@ public class EliteTeam extends MongoDataObject {
     private int kills = 0, deaths = 0;
 
     private BasicDBObject data = null;
+
+    public int getMemberRank(Player player) {
+        return getMemberRank(player.getUniqueId());
+    }
+
+    public int getMemberRank(UUID uid) {
+        try {
+            int r = playerRanks.get(uid);
+            return r;
+        } catch (Exception ex) {
+            return -1;
+        }
+    }
+
+    public String getRankName(int rankNum) {
+        String name = "";
+
+        try {
+            name = rankNames.get(rankNum);
+        } catch (Exception ex) { }
+
+        name = "none";
+
+        return name;
+    }
 
     public boolean isInviteExpired(UUID target) {
         if(playerInvites.containsKey(target)) {
@@ -73,6 +114,84 @@ public class EliteTeam extends MongoDataObject {
             if(invited) new FancyMessage(ChatColor.DARK_AQUA + "You have been invited to " + ChatColor.AQUA + teamName + ChatColor.DARK_AQUA + ". " + ChatColor.GREEN + "(click to join)").command("/team join " + teamName).send(Bukkit.getPlayer(invite));
             else MessageUtility.message(Bukkit.getPlayer(invite), false, ChatColor.RED + "Your invite to " + teamName + " has been revoked.");
         }
+    }
+
+    public int getOnline() {
+        int o = 0;
+
+        for(UUID mem : members) {
+            if(Bukkit.getPlayer(mem) != null) o++;
+        }
+
+        return o;
+    }
+
+    public void showInfo(CommandSender sender, boolean isMember) {
+        MessageUtility.message(sender, false, ChatColor.DARK_AQUA + "" + ChatColor.BOLD + getTeamName() + ChatColor.GRAY + "(" + ChatColor.GREEN + getOnline() + "/" + EliteTeam.MAX_PLAYERS + " online" + ChatColor.GRAY + ")");
+        if(!getDescription().isEmpty()) MessageUtility.message(sender, false, ChatColor.DARK_GRAY + "* " + ChatColor.RESET + getDescription() + ChatColor.DARK_GRAY + " *");
+        MessageUtility.message(sender, false, ChatColor.GRAY.toString() + ChatColor.STRIKETHROUGH + "---------------------------");
+
+        MessageUtility.message(sender, false, ChatColor.AQUA.toString() + ChatColor.BOLD + "Roster:");
+
+        List<UUID> onlineMembers = new ArrayList<>();
+        List<UUID> offlineMembers = new ArrayList<>();
+        List<UUID> onlineManagers = new ArrayList<>();
+        List<UUID> offlineManagers = new ArrayList<>();
+        List<UUID> onlineOwner = new ArrayList<>();
+        List<UUID> offlineOwner = new ArrayList<>();
+
+        for(UUID member : getPlayerRanks().keySet()) {
+            if(isOwner(member)) {
+                if(Bukkit.getPlayer(member) != null) {
+                    if(!onlineOwner.contains(member)) onlineOwner.add(member);
+                }
+                else {
+                    if(!offlineOwner.contains(member)) offlineOwner.add(member);
+                }
+            }
+            else if(isManager(member)) {
+                if(Bukkit.getPlayer(member) != null) {
+                    if(!onlineManagers.contains(member)) onlineManagers.add(member);
+                }
+                else {
+                    if(!offlineManagers.contains(member)) offlineManagers.add(member);
+                }
+            }
+            else {
+                if(Bukkit.getPlayer(member) != null) {
+                    if(!onlineMembers.contains(member)) onlineMembers.add(member);
+                }
+                else {
+                    if(!offlineMembers.contains(member)) offlineMembers.add(member);
+                }
+            }
+        }
+
+        {
+            for(UUID uid : onlineOwner) {
+                MessageUtility.message(sender, false, ChatColor.WHITE + "- " + ChatColor.GREEN + "**" + Bukkit.getOfflinePlayer(uid).getName());
+            }
+            for(UUID uid : onlineManagers) {
+                MessageUtility.message(sender, false, ChatColor.WHITE + "- " + ChatColor.GREEN + "*" + Bukkit.getOfflinePlayer(uid).getName());
+            }
+            for(UUID uid : onlineMembers) {
+                MessageUtility.message(sender, false, ChatColor.WHITE + "- " + ChatColor.GREEN + "" + Bukkit.getOfflinePlayer(uid).getName());
+            }
+            for(UUID uid : offlineOwner) {
+                MessageUtility.message(sender, false, ChatColor.WHITE + "- " + ChatColor.GRAY + "**" + Bukkit.getOfflinePlayer(uid).getName());
+            }
+            for(UUID uid : offlineManagers) {
+                MessageUtility.message(sender, false, ChatColor.WHITE + "- " + ChatColor.GRAY + "*" + Bukkit.getOfflinePlayer(uid).getName());
+            }
+            for(UUID uid : offlineMembers) {
+                MessageUtility.message(sender, false, ChatColor.WHITE + "- " + ChatColor.GRAY + "" + Bukkit.getOfflinePlayer(uid).getName());
+            }
+        }
+
+        MessageUtility.message(sender, false, ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Stats:");
+        MessageUtility.message(sender, false, ChatColor.WHITE + "- " + ChatColor.AQUA + "Kills: " + ChatColor.RESET + getKills());
+        MessageUtility.message(sender, false, ChatColor.WHITE + "- " + ChatColor.AQUA + "Deaths: " + ChatColor.RESET + getDeaths());
+        MessageUtility.message(sender, false, ChatColor.WHITE + "- " + ChatColor.AQUA + "Ratio: " + ChatColor.RESET + calcRatio());
     }
 
     public boolean isMember(UUID uid) {
@@ -334,6 +453,30 @@ public class EliteTeam extends MongoDataObject {
                 this.description = teamObject.getString("description");
             }
 
+            if(teamObject.containsKey("password")) {
+                this.password = teamObject.getString("password");
+            }
+
+            if(teamObject.containsKey("headquarters")) {
+                try {
+                    FakeLocation loc = new FakeLocation(teamObject.getString("headquarters"));
+
+                    if(loc != null) {
+                        this.headquarters = loc.toLocation();
+                    }
+                } catch (Exception ex) {}
+            }
+
+            if(teamObject.containsKey("rally")) {
+                try {
+                    FakeLocation loc = new FakeLocation(teamObject.getString("rally"));
+
+                    if(loc != null) {
+                        this.rally = loc.toLocation();
+                    }
+                } catch (Exception ex) {}
+            }
+
             if(teamObject.containsKey("members")) {
                 BasicDBList members = (BasicDBList) teamObject.get("members");
 
@@ -414,6 +557,33 @@ public class EliteTeam extends MongoDataObject {
         }
     }
 
+    public Location getHeadquarters() {
+        return headquarters;
+    }
+
+    public void setHeadquarters(Location headquarters) {
+        this.headquarters = headquarters;
+        queueAction(PoolAction.SAVE);
+    }
+
+    public Location getRally() {
+        return rally;
+    }
+
+    public void setRally(Location rally) {
+        this.rally = rally;
+        queueAction(PoolAction.SAVE);
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+        queueAction(PoolAction.SAVE);
+    }
+
     @Override
     public boolean clearData() throws MongoDataObjectException {
         if(data != null && isLoaded()) {
@@ -456,6 +626,10 @@ public class EliteTeam extends MongoDataObject {
         team.put("lowerName", teamName.toLowerCase());
 
         team.put("description", description);
+        team.put("password", password);
+
+        if(headquarters != null) team.put("headquarters", new FakeLocation(headquarters).serialize());
+        if(rally != null) team.put("rally", new FakeLocation(rally).serialize());
 
         { //REMEMBER to load ranks before members
             BasicDBObject ranks = new BasicDBObject();

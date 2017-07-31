@@ -101,7 +101,6 @@ public class Command_spawn extends BaseCommand {
             MessageUtility.message(sender, false, ChatColor.RED + "You have forced " + target.getName() + " to spawn in world " + world.getName() + ".");
             PluginUtility.callEvent(new PlayerSpawnEvent(target, teleport));
         }
-
     }
 
     public static Location toHighest(Location location) {

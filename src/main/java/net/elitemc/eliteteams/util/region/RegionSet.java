@@ -30,6 +30,14 @@ public class RegionSet extends HashSet<Region> {
     private Region.RegionType regionType = null;
     private Location point;
 
+    public boolean dissallows(FlagType type) {
+        if(isEmpty()) return false;
+        for(Region region : this) {
+            if(region.has(type) && !region.allows(type)) return true;
+        }
+        return false;
+    }
+
     public boolean allows(FlagType type) {
         if(isEmpty()) return true;
         for(Region region : this) {

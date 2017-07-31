@@ -1,5 +1,7 @@
 package net.elitemc.eliteteams.util.region;
 
+import net.elitemc.eliteteams.util.region.flags.ExplosionFlag;
+import net.elitemc.eliteteams.util.region.flags.FlowFlag;
 import net.elitemc.eliteteams.util.region.flags.PvPFlag;
 
 /**
@@ -7,7 +9,11 @@ import net.elitemc.eliteteams.util.region.flags.PvPFlag;
  */
 public enum FlagType {
 
-    PVP(PvPFlag.class);
+    PVP(PvPFlag.class),
+
+    FLOW(FlowFlag.class),
+
+    EXPLOSION(ExplosionFlag.class);
 
     FlagType(Class<? extends RegionFlag> flagClazz) {
         this.flagClazz = flagClazz;

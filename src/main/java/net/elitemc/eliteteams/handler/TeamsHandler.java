@@ -32,7 +32,7 @@ public class TeamsHandler extends Handler {
     @Override
     public void init() {
         for(Player player : PlayerUtility.getOnlinePlayers()) {
-//            getPlayerTeam(player);
+            getPlayerTeam(player);
         }
     }
 

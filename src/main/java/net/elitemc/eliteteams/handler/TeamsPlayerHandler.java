@@ -212,6 +212,15 @@ public class TeamsPlayerHandler extends Handler {
         }
     }
 
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        Player player = event.getPlayer();
+        TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
+
+        wrapper.doProtectionApplyCheck(player, event.getRespawnLocation());
+
+    }
+
     /**
      * Souping
      */
