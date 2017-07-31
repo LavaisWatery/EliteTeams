@@ -12,11 +12,9 @@ import net.elitemc.commons.util.scoreboard.V2.BoardEntry;
 import net.elitemc.commons.util.scoreboard.V2.BoardPreset;
 import net.elitemc.eliteteams.command.*;
 import net.elitemc.eliteteams.configuration.TeamsConfiguration;
-import net.elitemc.eliteteams.handler.AchievementHandler;
-import net.elitemc.eliteteams.handler.OptionsHandler;
-import net.elitemc.eliteteams.handler.RegionHandler;
-import net.elitemc.eliteteams.handler.TeamsPlayerHandler;
+import net.elitemc.eliteteams.handler.*;
 import net.elitemc.eliteteams.util.TeamsPlayerWrapper;
+import net.elitemc.eliteteams.util.team.EliteTeam;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
@@ -52,6 +50,7 @@ public class Init extends AbstractInit {
         // init handlers
         initHandler(new RegionHandler(), true);
         initHandler(new TeamsPlayerHandler(), true);
+        initHandler(new TeamsHandler(), true);
         initHandler(new AchievementHandler(), true);
         initHandler(new OptionsHandler(), true);
 
@@ -114,7 +113,8 @@ public class Init extends AbstractInit {
 
                     @Override
                     public String getSuffix() {
-                        return ChatColor.RESET + "none";
+                        EliteTeam team = null;
+                        return ChatColor.RESET + ((team = TeamsHandler.getInstance().getPlayerTeams().get(board.getId())) != null ? team.getTeamName() : "none");
                     }
                 });
 
@@ -182,6 +182,7 @@ public class Init extends AbstractInit {
     @Override
     public void registerCommands() {
         registerCommand("warp", new Command_warp());
+        registerCommand("team", new Command_team());
         registerCommand("spawn", new Command_spawn());
         registerCommand("track", new Command_track());
         registerCommand("options", new Command_options());
