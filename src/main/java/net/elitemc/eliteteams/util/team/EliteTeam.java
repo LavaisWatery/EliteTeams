@@ -61,7 +61,9 @@ public class EliteTeam extends MongoDataObject {
     private List<UUID> members = new ArrayList<>();
     private HashMap<UUID, Integer> playerRanks = new HashMap<>();
 
+    private boolean friendlyFire = false;
     private int kills = 0, deaths = 0;
+    private double balance = 0.0D;
 
     private BasicDBObject data = null;
 
@@ -448,13 +450,19 @@ public class EliteTeam extends MongoDataObject {
             if(teamObject.containsKey("teamName")) {
                 this.teamName = teamObject.getString("teamName");
             }
-
             if(teamObject.containsKey("description")) {
                 this.description = teamObject.getString("description");
+            }
+            if(teamObject.containsKey("balance")) {
+                this.balance = teamObject.getDouble("balance");
             }
 
             if(teamObject.containsKey("password")) {
                 this.password = teamObject.getString("password");
+            }
+
+            if(teamObject.containsKey("friendlyfire")) {
+                this.friendlyFire = teamObject.getBoolean("friendlyfire");
             }
 
             if(teamObject.containsKey("headquarters")) {
@@ -584,6 +592,15 @@ public class EliteTeam extends MongoDataObject {
         queueAction(PoolAction.SAVE);
     }
 
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+        queueAction(PoolAction.SAVE);
+    }
+
     @Override
     public boolean clearData() throws MongoDataObjectException {
         if(data != null && isLoaded()) {
@@ -609,6 +626,15 @@ public class EliteTeam extends MongoDataObject {
         }
     }
 
+    public boolean isFriendlyFire() {
+        return friendlyFire;
+    }
+
+    public void setFriendlyFire(boolean friendlyFire) {
+        this.friendlyFire = friendlyFire;
+        queueAction(PoolAction.SAVE);
+    }
+
     public static DecimalFormat decFormat = new DecimalFormat(".##");
 
     public double calcRatio() {
@@ -627,6 +653,10 @@ public class EliteTeam extends MongoDataObject {
 
         team.put("description", description);
         team.put("password", password);
+
+        team.put("balance", balance);
+
+        team.put("friendlyfire", friendlyFire);
 
         if(headquarters != null) team.put("headquarters", new FakeLocation(headquarters).serialize());
         if(rally != null) team.put("rally", new FakeLocation(rally).serialize());

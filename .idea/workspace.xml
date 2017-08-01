@@ -7,16 +7,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9fc35718-7bf4-4e02-9708-f012bc6a53ee" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_balance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init$1.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init$2$1.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init$2$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init$2$2.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init$2$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init$2$3.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init$2$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init$2$4.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init$2$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init$2$5.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init$2$5.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init$2.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init$3.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/Init.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/command/Command_team$1.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/command/Command_team$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/command/Command_team.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/command/Command_team.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/handler/TeamsPlayerHandler$1.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/handler/TeamsPlayerHandler$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/handler/TeamsPlayerHandler$2.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/handler/TeamsPlayerHandler$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/handler/TeamsPlayerHandler$3.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/handler/TeamsPlayerHandler$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/handler/TeamsPlayerHandler$SalvageType.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/handler/TeamsPlayerHandler$SalvageType.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/handler/TeamsPlayerHandler.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/handler/TeamsPlayerHandler.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/util/TeamsPlayerWrapper$1.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/util/TeamsPlayerWrapper$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/util/TeamsPlayerWrapper$TeamsPlayerState.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/util/TeamsPlayerWrapper$TeamsPlayerState.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/util/TeamsPlayerWrapper.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/util/TeamsPlayerWrapper.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/util/team/EliteTeam.class" afterPath="$PROJECT_DIR$/target/classes/net/elitemc/eliteteams/util/team/EliteTeam.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_spawn.java" afterPath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_spawn.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/Init.java" afterPath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/Init.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_team.java" afterPath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_team.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/RegionHandler.java" afterPath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/RegionHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/TeamsHandler.java" afterPath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/TeamsHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/TeamsPlayerHandler.java" afterPath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/TeamsPlayerHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/FlagType.java" afterPath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/FlagType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/Region.java" afterPath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/Region.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/RegionSet.java" afterPath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/RegionSet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/flags/PvPFlag.java" afterPath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/flags/PvPFlag.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/TeamsPlayerWrapper.java" afterPath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/TeamsPlayerWrapper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/team/EliteTeam.java" afterPath="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/team/EliteTeam.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -31,74 +47,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="RegionHandler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/RegionHandler.java">
+      <file leaf-file-name="Init.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/Init.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="430">
-              <caret line="178" column="30" lean-forward="false" selection-start-line="178" selection-start-column="30" selection-end-line="178" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RegionConfiguration.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/configuration/RegionConfiguration.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="58" column="52" lean-forward="true" selection-start-line="58" selection-start-column="52" selection-end-line="58" selection-end-column="52" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Region.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/Region.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="58">
-              <caret line="254" column="0" lean-forward="false" selection-start-line="254" selection-start-column="0" selection-end-line="254" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExplosionFlag.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/flags/ExplosionFlag.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="15" column="28" lean-forward="true" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1322#1323#0" expanded="true" />
-                <element signature="e#1370#1371#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RegionFlag.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/RegionFlag.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="31" column="20" lean-forward="false" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
-              <folding>
-                <element signature="e#666#667#0" expanded="true" />
-                <element signature="e#693#694#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Command_sets.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_sets.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="213" column="51" lean-forward="false" selection-start-line="213" selection-start-column="51" selection-end-line="213" selection-end-column="51" />
+            <state relative-caret-position="184">
+              <caret line="204" column="43" lean-forward="true" selection-start-line="204" selection-start-column="43" selection-end-line="204" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -107,20 +60,8 @@
       <file leaf-file-name="Command_team.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_team.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="481">
-              <caret line="374" column="110" lean-forward="false" selection-start-line="374" selection-start-column="110" selection-end-line="374" selection-end-column="110" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TeamsHandler.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/TeamsHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-947">
-              <caret line="28" column="28" lean-forward="true" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
+            <state relative-caret-position="281">
+              <caret line="327" column="121" lean-forward="true" selection-start-line="327" selection-start-column="121" selection-end-line="327" selection-end-column="121" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -131,9 +72,25 @@
       <file leaf-file-name="TeamsPlayerHandler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/TeamsPlayerHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="219" column="50" lean-forward="true" selection-start-line="219" selection-start-column="50" selection-end-line="219" selection-end-column="50" />
+            <state relative-caret-position="594">
+              <caret line="272" column="57" lean-forward="false" selection-start-line="272" selection-start-column="57" selection-end-line="272" selection-end-column="57" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EliteTeam.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/team/EliteTeam.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3289">
+              <caret line="634" column="37" lean-forward="false" selection-start-line="634" selection-start-column="37" selection-end-line="634" selection-end-column="37" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#20628#20629#0" expanded="true" />
+                <element signature="e#20658#20659#0" expanded="true" />
+                <element signature="e#21522#21523#0" expanded="true" />
+                <element signature="e#21557#21558#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -149,36 +106,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>played</find>
-      <find>playerdeath</find>
-      <find>playerdeatheve</find>
-      <find>playerdeathevent</find>
-      <find>toggle</find>
-      <find>playerjoinevent</find>
-      <find>!getRegionsApplicable(player.getLocation()).hasRegionType(Region.RegionType.SPAWN) || wrapper.getPlayerState() == TeamsPlayerWrapper.TeamsPlayerState.UNPROTECTED</find>
-      <find>This will disband your team. This will be permenent, there's no going back</find>
-      <find>savedasta</find>
-      <find>fetchcurr</find>
-      <find>TeamHandler</find>
-      <find>MessageUtility</find>
-      <find>MessageManager.</find>
-      <find>&quot;password</find>
-      <find>player,</find>
-      <find>createobject</find>
-      <find>invite</find>
-      <find>join</find>
-      <find>password</find>
-      <find>&quot;password&quot;</find>
-      <find>&quot;leave&quot;</find>
-      <find>show</find>
-      <find>&quot;Demote&quot;</find>
-      <find>&quot;promote&quot;</find>
-      <find>player</find>
-      <find>playerrespawn</find>
-      <find>loaddata</find>
-      <find>saveconfig</find>
       <find>configur</find>
       <find>save</find>
+      <find>projectilel</find>
+      <find>playerrespawn</find>
+      <find>v</find>
+      <find>entitydamagebyen</find>
+      <find>EntityDamageByEntityEvent</find>
+      <find>playerdea</find>
+      <find>playerdeath</find>
+      <find>playerdeathe</find>
+      <find>+</find>
+      <find>player</find>
+      <find>playerqu</find>
+      <find>playerquit</find>
+      <find>playerquite</find>
+      <find>playerdeathevent</find>
+      <find>loaddata</find>
+      <find>createobj</find>
+      <find>getint</find>
+      <find>createobject</find>
+      <find>create</find>
+      <find>playerquitevent</find>
+      <find>e</find>
+      <find>ent</find>
+      <find>entity</find>
+      <find>entityda</find>
+      <find>entitydama</find>
+      <find>entitydamage</find>
+      <find>entitydamageby</find>
+      <find>deposit</find>
     </findStrings>
     <replaceStrings>
       <replace>TeamsPlayerWrapper</replace>
@@ -205,8 +162,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/StatType.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/IItem.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/BlockPos.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/ChunkPos.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/RegionFlag.java" />
@@ -236,25 +191,27 @@
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_options.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/PlayerOptions.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/OptionsHandler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/TeamsPlayerWrapper.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/EliteTeam.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/team.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/team/excep/TeamRemovePlayerException.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/team/excep/TeamInvitePlayerException.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/team/excep/TeamPromoteException.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/team/excep/TeamAddPlayerException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/Init.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/TeamsHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/flags/PvPFlag.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/RegionSet.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/team/EliteTeam.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_spawn.java" />
-        <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/TeamsPlayerHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/flags/FlowFlag.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/Region.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/flags/ExplosionFlag.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/FlagType.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/RegionHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/CombatTimer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_balance.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/Init.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/TeamsPlayerWrapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/team/EliteTeam.java" />
+        <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/TeamsPlayerHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_team.java" />
       </list>
     </option>
@@ -758,20 +715,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="EliteTeams" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="EliteTeams" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shared" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -1042,7 +985,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25052083" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1068,27 +1011,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/RegionSession.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/AchievementHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-408">
-          <caret line="9" column="28" lean-forward="true" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/GameAchievement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="1" lean-forward="false" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/shared/Commons.jar!/net/elitemc/commons/handler/PlayerHandler.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -1225,13 +1147,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_build.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="40" column="51" lean-forward="true" selection-start-line="40" selection-start-column="51" selection-end-line="40" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/FlagSerializable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -1243,6 +1158,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="23" column="45" lean-forward="false" selection-start-line="23" selection-start-column="45" selection-end-line="23" selection-end-column="45" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1250,6 +1166,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="29" column="16" lean-forward="false" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1265,13 +1182,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="28" column="11" lean-forward="false" selection-start-line="28" selection-start-column="11" selection-end-line="28" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_track.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="37" column="6" lean-forward="true" selection-start-line="31" selection-start-column="3" selection-end-line="37" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -1316,38 +1226,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/Init.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1547">
-          <caret line="117" column="21" lean-forward="false" selection-start-line="117" selection-start-column="21" selection-end-line="117" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#4533#4534#0" expanded="false" />
-            <element signature="e#4599#4600#0" expanded="false" />
-            <element signature="e#4886#4887#0" expanded="false" />
-            <element signature="e#4995#4996#0" expanded="false" />
-            <element signature="e#5598#5599#0" expanded="false" />
-            <element signature="e#5711#5712#0" expanded="false" />
-            <element signature="e#6341#6342#0" expanded="false" />
-            <element signature="e#6408#6409#0" expanded="false" />
-            <element signature="e#6704#6705#0" expanded="false" />
-            <element signature="e#6768#6769#0" expanded="false" />
-            <element signature="e#8729#8730#0" expanded="false" />
-            <element signature="e#8765#8766#0" expanded="false" />
-            <element signature="e#8805#8806#0" expanded="false" />
-            <element signature="e#8836#8837#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/TeamsPlayerWrapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="675" column="9" lean-forward="true" selection-start-line="675" selection-start-column="9" selection-end-line="675" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/region/flags/PvPFlag.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="504">
@@ -1364,44 +1242,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/team/EliteTeam.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1646">
-          <caret line="523" column="13" lean-forward="true" selection-start-line="523" selection-start-column="13" selection-end-line="523" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2318#2319#0" expanded="true" />
-            <element signature="e#2376#2377#0" expanded="true" />
-            <element signature="e#19692#19693#0" expanded="true" />
-            <element signature="e#19727#19728#0" expanded="true" />
-            <element signature="e#19905#19906#0" expanded="true" />
-            <element signature="e#19933#19934#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_spawn.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="102" column="9" lean-forward="false" selection-start-line="102" selection-start-column="9" selection-end-line="102" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/TeamsHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-947">
-          <caret line="28" column="28" lean-forward="true" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/TeamsPlayerHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="219" column="50" lean-forward="true" selection-start-line="219" selection-start-column="50" selection-end-line="219" selection-end-column="50" />
           <folding />
         </state>
       </provider>
@@ -1411,8 +1255,8 @@
         <state relative-caret-position="425">
           <caret line="31" column="20" lean-forward="false" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
           <folding>
-            <element signature="e#666#667#0" expanded="true" />
-            <element signature="e#693#694#0" expanded="true" />
+            <element signature="e#666#667#0" expanded="false" />
+            <element signature="e#693#694#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1440,9 +1284,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="430">
           <caret line="178" column="30" lean-forward="false" selection-start-line="178" selection-start-column="30" selection-end-line="178" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1486,10 +1328,101 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/CombatTimer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="549">
+          <caret line="102" column="5" lean-forward="false" selection-start-line="102" selection-start-column="5" selection-end-line="102" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/shared/Commons.jar!/net/elitemc/commons/util/scoreboard/V2/BoardEntry.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="307">
+          <caret line="35" column="16" lean-forward="false" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/TeamsHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="205">
+          <caret line="21" column="13" lean-forward="false" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_track.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="37" column="6" lean-forward="true" selection-start-line="31" selection-start-column="3" selection-end-line="37" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_build.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="40" column="51" lean-forward="true" selection-start-line="40" selection-start-column="51" selection-end-line="40" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/Init.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="204" column="43" lean-forward="true" selection-start-line="204" selection-start-column="43" selection-end-line="204" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/TeamsPlayerWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="610">
+          <caret line="297" column="58" lean-forward="true" selection-start-line="297" selection-start-column="58" selection-end-line="297" selection-end-column="58" />
+          <folding>
+            <element signature="e#22959#22960#0" expanded="true" />
+            <element signature="e#22989#22990#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_balance.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="28" lean-forward="false" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/util/team/EliteTeam.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3289">
+          <caret line="634" column="37" lean-forward="false" selection-start-line="634" selection-start-column="37" selection-end-line="634" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#20628#20629#0" expanded="true" />
+            <element signature="e#20658#20659#0" expanded="true" />
+            <element signature="e#21522#21523#0" expanded="true" />
+            <element signature="e#21557#21558#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/handler/TeamsPlayerHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="272" column="57" lean-forward="false" selection-start-line="272" selection-start-column="57" selection-end-line="272" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/net/elitemc/eliteteams/command/Command_team.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="374" column="110" lean-forward="false" selection-start-line="374" selection-start-column="110" selection-end-line="374" selection-end-column="110" />
+        <state relative-caret-position="281">
+          <caret line="327" column="121" lean-forward="true" selection-start-line="327" selection-start-column="121" selection-end-line="327" selection-end-column="121" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

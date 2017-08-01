@@ -300,6 +300,87 @@ public class Command_team extends BaseCommand {
                 MessageUtility.message(player, false, ChatColor.RED + "This team doesn't exist.");
             }
         }
+        else if(args[0].equalsIgnoreCase("balance") || args[0].equalsIgnoreCase("money")) {
+            if(TeamsHandler.getInstance().getPlayerTeam(player) == null) {
+                MessageUtility.message(player, false, ChatColor.RED + "You aren't on a team.");
+                return;
+            }
+            EliteTeam team = TeamsHandler.getInstance().getPlayerTeam(player);
+
+            MessageUtility.message(player, false, ChatColor.DARK_AQUA + "Balance: " + team.getBalance());
+        }
+        else if(args[0].equalsIgnoreCase("deposit") || args[0].equalsIgnoreCase("d")) {
+            if(args.length < 2) {
+                MessageUtility.message(player, false, StringUtility.getDefaultUsage() + "/team deposit <amount>");
+                return;
+            }
+            if(TeamsHandler.getInstance().getPlayerTeam(player) == null) {
+                MessageUtility.message(player, false, ChatColor.RED + "You aren't on a team.");
+                return;
+            }
+            TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
+            EliteTeam team = TeamsHandler.getInstance().getPlayerTeam(player);
+
+            try {
+                double amount = Double.parseDouble(args[1]);
+
+                if(amount <= 0) {
+                    MessageUtility.message(player, false, ChatColor.RED + "You are unable to deposit amounts less than 1");
+                    return;
+                }
+
+                if(wrapper.getBalance() >= amount) {
+                    wrapper.setBalance(wrapper.getBalance() - amount);
+                    team.setBalance(team.getBalance() + amount);
+                }
+                else {
+                    MessageUtility.message(player, false, ChatColor.RED + "You must have the amount you're depositing.");
+                    return;
+                }
+            } catch (Exception ex) {
+                MessageUtility.message(player, false, ChatColor.RED + "You must input a number value.");
+                return;
+            }
+        }
+        else if(args[0].equalsIgnoreCase("ff") || args[0].equalsIgnoreCase("friendlyfire")) {
+            boolean hasToggle = args.length >= 2;
+            if(TeamsHandler.getInstance().getPlayerTeam(player) == null) {
+                MessageUtility.message(player, false, ChatColor.RED + "You aren't on a team.");
+                return;
+            }
+            EliteTeam team = TeamsHandler.getInstance().getPlayerTeam(player);
+
+            if(team.isManager(player)) {
+                boolean friendly = team.isFriendlyFire();
+
+                if(hasToggle) {
+                    try {
+                        String tog = args[1];
+                        if(tog.equalsIgnoreCase("on")) {
+                            tog = "true";
+                        }
+                        else if(tog.equalsIgnoreCase("off")) {
+                            tog = "false";
+                        }
+                        boolean b = Boolean.parseBoolean(tog);
+
+                        friendly = b;
+                    } catch (Exception ex) {
+                        MessageUtility.message(player, false, ChatColor.RED + "on:off");
+                        return;
+                    }
+                }
+                else {
+                    friendly = !friendly;
+                }
+                team.setFriendlyFire(friendly);
+
+                team.sendMassMessage(ChatColor.DARK_AQUA + player.getName() + " has toggled friendly fire " + (friendly ? "on" : "off") + ".");
+            }
+            else {
+                MessageUtility.message(player, false, ChatColor.RED + "You must be a team manager to do this.");
+            }
+        }
         else if(args[0].equalsIgnoreCase("password")) {
             if(args.length < 2) {
                 MessageUtility.message(player, false, StringUtility.getDefaultUsage() + "/team password <password:off>");

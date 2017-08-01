@@ -2,6 +2,7 @@ package net.elitemc.eliteteams;
 
 import net.elitemc.commons.handler.BoardHandler;
 import net.elitemc.commons.util.Handler;
+import net.elitemc.commons.util.MessageUtility;
 import net.elitemc.commons.util.PlayerUtility;
 import net.elitemc.commons.util.abstr.AbstractInit;
 import net.elitemc.commons.util.abstr.AbstractPlayerNear;
@@ -15,6 +16,7 @@ import net.elitemc.eliteteams.configuration.TeamsConfiguration;
 import net.elitemc.eliteteams.handler.*;
 import net.elitemc.eliteteams.util.TeamsPlayerWrapper;
 import net.elitemc.eliteteams.util.team.EliteTeam;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
@@ -22,6 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.text.DecimalFormat;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -42,6 +45,8 @@ public class Init extends AbstractInit {
     private TeamsConfiguration configuration = null;
 
     private BoardHandler boardHandler = BoardHandler.getInstance();
+
+    public static DecimalFormat combatFormat = new DecimalFormat("0.0");
 
     @Override
     public void initInstances() {
@@ -118,7 +123,21 @@ public class Init extends AbstractInit {
                     }
                 });
 
-                board.addEntry("protection", 13, new BoardEntry.EntryInfo() {
+                board.addEntry("combattimer", 13, new BoardEntry.EntryInfo() {
+                    TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(board.getId());
+
+                    @Override
+                    public String getPrefix() {
+                        return ChatColor.GREEN.toString() + ChatColor.BOLD + "Combat: ";
+                    }
+
+                    @Override
+                    public String getSuffix() {
+                        return wrapper.getCombatTimer() > System.currentTimeMillis() ? ChatColor.RESET + combatFormat.format((wrapper.getCombatTimer() - System.currentTimeMillis()) / 1000.0) + "s" : "";
+                    }
+                });
+
+                board.addEntry("protection", 12, new BoardEntry.EntryInfo() {
                     TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(board.getId());
 
                     @Override
@@ -132,7 +151,7 @@ public class Init extends AbstractInit {
                     }
                 });
 
-                board.addEntry("spacer2", 11, new BoardEntry.EntryInfo() {
+                board.addEntry("spacer2", 10, new BoardEntry.EntryInfo() {
                     @Override
                     public String getPrefix() {
                         return ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "" + ChatColor.BOLD + "--------";
@@ -144,7 +163,7 @@ public class Init extends AbstractInit {
                     }
                 });
 
-                board.addEntry("pearlcooldown", 11, new BoardEntry.EntryInfo() {
+                board.addEntry("pearlcooldown", 9, new BoardEntry.EntryInfo() {
                     TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(board.getId());
 
                     @Override
@@ -182,6 +201,7 @@ public class Init extends AbstractInit {
     @Override
     public void registerCommands() {
         registerCommand("warp", new Command_warp());
+        registerCommand("balance", new Command_balance());
         registerCommand("team", new Command_team());
         registerCommand("spawn", new Command_spawn());
         registerCommand("track", new Command_track());

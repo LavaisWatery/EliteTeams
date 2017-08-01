@@ -54,9 +54,13 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
     public static String UNPROTECTED_MESSAGE = ChatColor.GRAY + "You are no longer protected.",
             PROTECTION_APPLIED = ChatColor.GRAY + "You have regained spawn protection.";
 
-    private int kills = 0, deaths = 0, current_killstreak = 0, top_killstreak = 0, balance = 0, max_warps = 5;
+    private int kills = 0, deaths = 0, current_killstreak = 0, top_killstreak = 0, max_warps = 5;
 
     private int basic_keys = 0, omega_keys = 0;
+
+    private double balance = 0.0D;
+
+    private long combatTimer = -1;
 
     private TeamsPlayerWrapper kitWrapper = null;
     private OriginPlayerWrapper originWrapper = null;
@@ -126,6 +130,20 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
         if(!RegionHandler.getInstance().getRegionsApplicable(target).allows(FlagType.PVP)) {
             setPlayerState(TeamsPlayerState.PROTECTED);
             MessageUtility.message(player, false, PROTECTION_APPLIED);
+        }
+    }
+
+    public long getCombatTimer() {
+        return combatTimer;
+    }
+
+    public void scheduleCombat(long time) {
+        this.combatTimer = System.currentTimeMillis() + time;
+        if(time > 0) {
+            BoardHandler.getInstance().getPlayerBoard(getID()).getBoardEntries().get("combattimer").showForTime(time);
+        }
+        else {
+            BoardHandler.getInstance().getPlayerBoard(getID()).getBoardEntries().get("combattimer").getShower().cancel();
         }
     }
 
@@ -262,7 +280,7 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
                 if(fetched.containsKey("deaths")) deaths = fetched.getInt("deaths");
                 if(fetched.containsKey("current_killstreak")) current_killstreak = fetched.getInt("current_killstreak");
                 if(fetched.containsKey("top_killstreak")) top_killstreak = fetched.getInt("top_killstreak");
-                if(fetched.containsKey("balance")) balance = fetched.getInt("balance");
+                if(fetched.containsKey("balance")) balance = fetched.getDouble("balance");
                 if(fetched.containsKey("basic_keys")) basic_keys = fetched.getInt("basic_keys");
                 if(fetched.containsKey("omega_keys")) omega_keys = fetched.getInt("omega_keys");
                 if(fetched.containsKey("max_warps")) max_warps = fetched.getInt("max_warps");
@@ -632,11 +650,11 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
         runAchievementCheck(AchievementType.TOP_KILLSTREAK, top_killstreak);
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
         queueAction(PoolAction.SAVE);
         runAchievementCheck(AchievementType.BALANCE, balance);

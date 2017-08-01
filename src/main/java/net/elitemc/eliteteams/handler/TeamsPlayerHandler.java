@@ -9,6 +9,7 @@ import net.elitemc.commons.util.mongo.pooling.ActionChange;
 import net.elitemc.commons.util.wrapper.MongoDataObjectException;
 import net.elitemc.eliteteams.EliteTeams;
 import net.elitemc.eliteteams.util.*;
+import net.elitemc.eliteteams.util.team.EliteTeam;
 import net.elitemc.origin.util.OriginPlayerWrapper;
 import net.elitemc.origin.util.event.OriginPlayerJoinEvent;
 import net.elitemc.origin.util.event.OriginPlayerUpdatedPlaytime;
@@ -143,6 +144,9 @@ public class TeamsPlayerHandler extends Handler {
         Player player = event.getPlayer();
         TeamsPlayerWrapper wrapper = getPlayerWrapper(player);
 
+        if(wrapper.getCombatTimer() > System.currentTimeMillis()) {
+            player.setHealth(0);
+        }
         wrapper.setBuilding(false);
     }
 
@@ -249,7 +253,7 @@ public class TeamsPlayerHandler extends Handler {
     }
 
     /**
-     * Str fix
+     * Str fix + combat
      */
     @EventHandler
     public void onPlayerDamage(EntityDamageByEntityEvent event) {
@@ -257,6 +261,19 @@ public class TeamsPlayerHandler extends Handler {
             if (event.getDamager() != null) {
                 if ((event.getDamager() instanceof Player)) {
                     Player player = (Player)event.getDamager();
+
+                    if(event.getEntity() instanceof Player) {
+                        TeamsPlayerHandler.getInstance().getPlayerWrapper((Player) event.getEntity()).scheduleCombat(1000 * 30);
+                        TeamsPlayerHandler.getInstance().getPlayerWrapper(player).scheduleCombat(1000 * 30);
+
+                        EliteTeam same = null;
+
+                        if((same = TeamsHandler.getInstance().getPlayerTeam(player)) != null && TeamsHandler.getInstance().getPlayerTeam((Player) event.getEntity()) != null) {
+                            if(!same.isFriendlyFire()) {
+                                event.setCancelled(true);
+                            }
+                        }
+                    }
                     Iterator<PotionEffect> iterator = player.getActivePotionEffects().iterator();
                     while (iterator.hasNext()) {
                         PotionEffect eff = (PotionEffect)iterator.next();
@@ -297,6 +314,7 @@ public class TeamsPlayerHandler extends Handler {
         broadcastDeath(event);
         wrapper.setBuilding(false);
         wrapper.cleanPearl(player);
+        wrapper.scheduleCombat(-1);
     }
 
     public void broadcastDeath(PlayerDeathEvent event) {
