@@ -45,7 +45,7 @@ public class EliteTeam extends MongoDataObject {
     }
 
     public static String TEAM_COLLECTION = "teamsdata";
-    //TODO make it possible to configure max teams + other
+
     public static int MAX_PLAYERS = 5, MAX_TEAMNAME_LENGTH = 14, MIN_TEAMNAME_LENGTH = 3;
     public static int MEMBER_DEFAULT = 0, MEMBER_MANAGER = 1, MEMBER_OWNER = 2;
     public static long INVITE_TIMEOUT = 30;

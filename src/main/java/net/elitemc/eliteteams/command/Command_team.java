@@ -549,7 +549,7 @@ public class Command_team extends BaseCommand {
                         }
                     }
                     else {
-                        MessageUtility.message(player, false, ChatColor.RED + "This player is already a team " + team.getRankName(team.getMemberRank(targetPlayer.getUniqueId()))); //TODO
+                        MessageUtility.message(player, false, ChatColor.RED + "This player is already a team " + team.getRankName(team.getMemberRank(targetPlayer.getUniqueId())));
                     }
                 }
                 else {

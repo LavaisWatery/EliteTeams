@@ -228,7 +228,6 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
 
     public void setLastUnprotected(Location lastUnprotected) {
         this.lastUnprotected = lastUnprotected;
-        //TODO update board
     }
 
     public long getLastDeath() {
@@ -285,6 +284,10 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
                 if(fetched.containsKey("basic_keys")) basic_keys = fetched.getInt("basic_keys");
                 if(fetched.containsKey("omega_keys")) omega_keys = fetched.getInt("omega_keys");
                 if(fetched.containsKey("max_warps")) max_warps = fetched.getInt("max_warps");
+
+                try {
+                    if(fetched.containsKey("state")) playerState = TeamsPlayerState.valueOf(fetched.getString("state"));
+                } catch (Exception ex) { }
 
                 if(fetched.containsKey("description")) description = fetched.getString("description");
 
@@ -708,6 +711,8 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
         object.put("omega_keys", omega_keys);
         object.put("max_warps", max_warps);
         object.put("lastkit", lastKit);
+
+        object.put("state", playerState.toString());
 
         object.put("description", description);
 

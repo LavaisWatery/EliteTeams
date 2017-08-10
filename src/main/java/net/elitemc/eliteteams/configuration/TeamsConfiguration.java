@@ -3,6 +3,7 @@ package net.elitemc.eliteteams.configuration;
 import net.elitemc.commons.util.PluginConfiguration;
 import net.elitemc.eliteteams.EliteTeams;
 import net.elitemc.eliteteams.Init;
+import net.elitemc.eliteteams.util.team.EliteTeam;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
@@ -27,39 +28,11 @@ public class TeamsConfiguration extends PluginConfiguration {
     public void setupConfig() {
         FileConfiguration config = getConfig();
 
-
+        EliteTeam.MAX_PLAYERS = config.getInt("teams.max-players-per-team");
+        EliteTeam.MAX_TEAMNAME_LENGTH = config.getInt("teams.max-team-length");
+        EliteTeam.MIN_TEAMNAME_LENGTH = config.getInt("teams.min-team-length");
+        EliteTeam.INVITE_TIMEOUT = config.getInt("teams.invite-timeout");
     }
-
-//    public void saveConfig() {
-//        File file = getFile();
-//        FileConfiguration config = getConfig();
-//
-//        JSONObject subInfoJ = new JSONObject();
-//        JSONObject arenasJ = new JSONObject();
-//        JSONObject groupsJ = new JSONObject();
-//
-//        for(ArenaSubInfo info : handler.getSubInfoBasedNames().values()) {
-//            subInfoJ.put(info.getIndex(), info.serialize());
-//        }
-//
-//        for(GroupedArenas group : handler.getGroupedArenas().values()) {
-//            groupsJ.put(group.getGroupName(), group.serialize());
-//        }
-//
-//        for(Arena arena : arenas) {
-//            arenasJ.put(arena.getIndexName(), arena.serialize());
-//        }
-//
-//        config.set("subinfo", subInfoJ.toString(2));
-//        config.set("arenas", arenasJ.toString(2));
-//        config.set("groups", groupsJ.toString(2));
-//
-//        try {
-//            config.save(file);
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//    }
 
     public Init getHandler() {
         return handler;

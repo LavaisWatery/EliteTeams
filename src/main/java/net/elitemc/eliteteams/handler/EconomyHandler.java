@@ -5,6 +5,7 @@ import net.elitemc.commons.util.MessageUtility;
 import net.elitemc.commons.util.PlayerUtility;
 import net.elitemc.eliteteams.configuration.EconomyConfiguration;
 import net.elitemc.eliteteams.util.shop.ShopItem;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
@@ -30,6 +31,10 @@ public class EconomyHandler extends Handler {
     @Override
     public void unload() {
 
+    }
+
+    public ShopItem fromItemStack(ItemStack item) {
+        return getShopItem("" + item.getType().getId() + ":" + item.getDurability());
     }
 
     public void registerShopItem(ShopItem item) {

@@ -1,0 +1,5 @@
+teams:
+  max-players-per-team: 4
+  max-team-length: 14
+  min-team-length: 3
+  invite-timeout: 30

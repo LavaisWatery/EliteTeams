@@ -1,5 +1,7 @@
 package net.elitemc.eliteteams.util;
 
+import net.elitemc.eliteteams.handler.TeamsHandler;
+
 import java.util.Map;
 
 /**
@@ -95,14 +97,10 @@ public enum AchievementType {
         }
     },
 
-    MAKE_A_TEAM { //TODO
+    MAKE_A_TEAM {
         @Override
         public boolean hasAchievement(TeamsPlayerWrapper wrapper, Object input) {
-            if(input instanceof Integer) {
-//                return ((KitPvPPlayerWrapper) wrapper).getPlayersTeam() != null; //TODO make sure this works
-            }
-
-            return false;
+            return TeamsHandler.getInstance().getPlayerTeam(wrapper.getID()) != null; //TODO make sure this works
         }
     };
 

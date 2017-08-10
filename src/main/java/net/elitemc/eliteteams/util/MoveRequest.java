@@ -41,7 +41,7 @@ public class MoveRequest extends AbstractFuture implements Runnable, ListenableF
         Player player = event.getPlayer();
         wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
 
-        if(player.isDead()) {
+        if(!wrapper.isLoaded() || player.isDead()) {
             set(null);
             return;
         }
