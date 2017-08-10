@@ -54,6 +54,7 @@ public class Init extends AbstractInit {
 
         // init handlers
         initHandler(new RegionHandler(), true);
+        initHandler(new EconomyHandler(), true);
         initHandler(new TeamsPlayerHandler(), true);
         initHandler(new TeamsHandler(), true);
         initHandler(new AchievementHandler(), true);
@@ -202,6 +203,8 @@ public class Init extends AbstractInit {
     public void registerCommands() {
         registerCommand("warp", new Command_warp());
         registerCommand("balance", new Command_balance());
+        registerCommand("buy", new Command_buy());
+        registerCommand("sell", new Command_sell());
         registerCommand("team", new Command_team());
         registerCommand("spawn", new Command_spawn());
         registerCommand("track", new Command_track());
@@ -210,6 +213,7 @@ public class Init extends AbstractInit {
         registerCommand("no", new Command_no());
         registerCommand("sets", new Command_sets());
         registerCommand("build", new Command_build());
+        registerCommand("alter", new Command_alter());
     }
 
     @Override

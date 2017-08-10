@@ -1,4 +1,4 @@
-package net.elitemc.eliteteams.util.excep;
+package net.elitemc.eliteteams.util.warp.excep;
 
 /**
  * Created by LavaisWatery on 2017-07-22.

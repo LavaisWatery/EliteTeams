@@ -204,7 +204,7 @@ public class TeamsPlayerHandler extends Handler {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityDamage(EntityDamageEvent event) {
         if((event.getCause() != EntityDamageEvent.DamageCause.VOID && event.getCause() != EntityDamageEvent.DamageCause.CUSTOM) && event.getEntity() instanceof Player) {
             Player player = (Player) event.getEntity();
@@ -222,7 +222,6 @@ public class TeamsPlayerHandler extends Handler {
         TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
 
         wrapper.doProtectionApplyCheck(player, event.getRespawnLocation());
-
     }
 
     /**
@@ -255,8 +254,9 @@ public class TeamsPlayerHandler extends Handler {
     /**
      * Str fix + combat
      */
-    @EventHandler
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerDamage(EntityDamageByEntityEvent event) {
+        if(event.isCancelled()) return;
         if (event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) {
             if (event.getDamager() != null) {
                 if ((event.getDamager() instanceof Player)) {
@@ -328,6 +328,31 @@ public class TeamsPlayerHandler extends Handler {
             if(((boolean) PlayerOptions.OptionType.DEATH_MESSAGES.getCurrent(wrapper.getPlayerOptions()))) {
                 player.sendMessage(message);
             }
+        }
+    }
+
+    /**
+     * Handle stats
+     */
+
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onDeathHandleStats(PlayerDeathEvent event) {
+        Player player = event.getEntity();
+        TeamsPlayerWrapper wrap = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
+
+        if((System.currentTimeMillis() - wrap.getLastDeath()) < 300) return;
+        wrap.setLastDeath(System.currentTimeMillis());
+
+        wrap.setDeaths(wrap.getDeaths() + 1);
+        wrap.setCurrent_killstreak(0);
+//        wrap.forceCheckAllRankAchievements(); //TODO handle achievements better?
+
+        if(player.getKiller() != null && player.getKiller() instanceof Player) {
+            Player killer = player.getKiller();
+            TeamsPlayerWrapper killerWrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(killer);
+
+            killerWrapper.setKills(killerWrapper.getKills() + 1);
+            killerWrapper.setCurrent_killstreak(killerWrapper.getCurrent_killstreak() + 1);
         }
     }
 

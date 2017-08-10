@@ -10,9 +10,6 @@ import net.elitemc.eliteteams.util.TeamsPlayerWrapper;
 import net.elitemc.eliteteams.util.team.EliteTeam;
 import net.elitemc.eliteteams.util.team.excep.TeamAddPlayerException;
 import net.elitemc.eliteteams.util.team.excep.TeamInvitePlayerException;
-import net.elitemc.origin.OriginConfiguration;
-import net.elitemc.origin.handler.ProfileHandler;
-import net.elitemc.origin.handler.WarpHandler;
 import net.elitemc.origin.util.OriginPlayerWrapper;
 import net.elitemc.origin.util.event.PlayerSpawnEvent;
 import net.elitemc.origin.util.object.TeleportTarget;
@@ -47,6 +44,7 @@ public class Command_team extends BaseCommand {
             ChatColor.DARK_AQUA + "/team demote " + ChatColor.AQUA + "<playerName> " + ChatColor.GRAY + "- Demote a member on the team.", //
             ChatColor.DARK_AQUA + "/team kick " + ChatColor.AQUA + "<playerName> " + ChatColor.GRAY + "- Kick a player from your team.", //
             ChatColor.DARK_AQUA + "/team password " + ChatColor.AQUA + "<password:off> " + ChatColor.GRAY + "- Change the password to join your team.",
+            ChatColor.DARK_AQUA + "/team withdraw " + ChatColor.AQUA + "<amount> " + ChatColor.GRAY + "- Withdraw team balance directly to your wallet.",
             ChatColor.DARK_AQUA + "/team sethq " + ChatColor.GRAY + "- Set the location of the team headquarters.",
             ChatColor.DARK_AQUA + "/team setrally " + ChatColor.GRAY + "- Set the location of the team rally.",
             ChatColor.DARK_AQUA + "/team ff " + ChatColor.AQUA + "<on:off> " + ChatColor.GRAY + "- Toggle friendly fire on team members.",
@@ -401,6 +399,39 @@ public class Command_team extends BaseCommand {
                 }
                 team.setPassword(password);
                 team.sendMassMessage(ChatColor.GRAY + player.getName() + " has changed the team password.");
+            }
+            else {
+                MessageUtility.message(player, false, ChatColor.RED + "You must be a team manager to do this.");
+            }
+        }
+        else if(args[0].equalsIgnoreCase("withdraw")) {
+            if(args.length < 2) {
+                MessageUtility.message(player, false, StringUtility.getDefaultUsage() + "/team withdraw <amount>");
+                return;
+            }
+            if(TeamsHandler.getInstance().getPlayerTeam(player) == null) {
+                MessageUtility.message(player, false, ChatColor.RED + "You aren't on a team.");
+                return;
+            }
+            EliteTeam team = TeamsHandler.getInstance().getPlayerTeam(player);
+
+            if(team.isManager(player)) {
+                String amountRaw = args[1];
+
+                if(NumberUtility.isNumber(amountRaw)) {
+                    double amount = Double.parseDouble(amountRaw);
+
+                    if(amount > 0) {
+                        team.setBalance(team.getBalance() - amount);
+                        team.sendTeamChat(player, "has withdrew " + amount + " from the team Bank Account.");
+                    }
+                    else {
+                        MessageUtility.message(sender, false, ChatColor.RED + "You must withdraw more money.");
+                    }
+                }
+                else {
+                    MessageUtility.message(sender, false, ChatColor.RED + "You must input a number amount to withdraw money.");
+                }
             }
             else {
                 MessageUtility.message(player, false, ChatColor.RED + "You must be a team manager to do this.");

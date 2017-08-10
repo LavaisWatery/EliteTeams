@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFromToEvent;
@@ -190,7 +191,7 @@ public class RegionHandler extends Handler {
      * Block placement
      */
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityDamageEvent(EntityDamageByEntityEvent event) {
         if(event.getDamager() instanceof Player) {
             Player damager = (Player) event.getDamager();

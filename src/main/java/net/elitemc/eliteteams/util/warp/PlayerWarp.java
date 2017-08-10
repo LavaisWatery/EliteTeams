@@ -1,4 +1,4 @@
-package net.elitemc.eliteteams.util;
+package net.elitemc.eliteteams.util.warp;
 
 import net.elitemc.commons.util.FakeLocation;
 import org.bukkit.Location;
