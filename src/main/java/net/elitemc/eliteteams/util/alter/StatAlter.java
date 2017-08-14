@@ -3,6 +3,7 @@ package net.elitemc.eliteteams.util.alter;
 import net.elitemc.commons.util.MessageUtility;
 import net.elitemc.commons.util.wrapper.MongoDataObjectException;
 import net.elitemc.eliteteams.EliteTeams;
+import net.elitemc.eliteteams.handler.NametagHandler;
 import net.elitemc.eliteteams.handler.TeamsPlayerHandler;
 import net.elitemc.eliteteams.util.IAlterItem;
 import net.elitemc.eliteteams.util.TeamsPlayerWrapper;
@@ -104,6 +105,11 @@ public class StatAlter extends IAlterItem {
                                 } catch (Exception ex) {
                                     MessageUtility.message(sender, false, ChatColor.RED + "Couldn't parse amount.");
                                 }
+                                break;
+                            }
+                            case "test": {
+                                NametagHandler.getInstance().assure(player.getPlayer()).apply();
+
                                 break;
                             }
                             case "balance": {

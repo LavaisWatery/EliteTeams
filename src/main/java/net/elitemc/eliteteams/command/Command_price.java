@@ -41,7 +41,7 @@ public class Command_price extends BaseCommand {
         }
 
         if(item != null) {
-            MessageUtility.message(player, false, ChatColor.GREEN.toString() + ChatColor.BOLD + InventoryUtility.getFriendlyItemStackName(item.toItem(1)));
+            MessageUtility.message(player, false, ChatColor.GREEN.toString() + ChatColor.BOLD + InventoryUtility.getFriendlyItemStackName(item.toItem(1).get(0)));
             MessageUtility.message(player, false, ChatColor.GOLD + "Price Per: " + NumberUtility.getProperFormat().format(item.getPrice()));
             MessageUtility.message(player, false, ChatColor.GOLD + "Sell Price: " + NumberUtility.getProperFormat().format(item.getPrice() * item.getSellMult()));
 

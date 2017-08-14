@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,8 +23,17 @@ public class ShopItem implements ConfigurationSerializable {
     private String display = "";
     private Material material = null;
     private short data = 0;
+    private int maxStackSize = 64;
     private double price = 0.0D, sellMult = 0.0D;
     private List<String> aliases = null;
+
+    public int getMaxStackSize() {
+        return maxStackSize;
+    }
+
+    public void setMaxStackSize(int maxStackSize) {
+        this.maxStackSize = maxStackSize;
+    }
 
     public Material getMaterial() {
         return material;
@@ -69,8 +79,20 @@ public class ShopItem implements ConfigurationSerializable {
         return aliases;
     }
 
-    public ItemStack toItem(int amount) {
-        return new ItemStack(material, amount, data);
+    public List<ItemStack> toItem(int amount) {
+        if(amount > 2304) amount = 2304;
+        List<ItemStack> items = new ArrayList<>();
+        int amountLeft = amount;
+        int mod = (int) Math.ceil(amount / maxStackSize);
+
+        for(int i = 0; i <= mod; i++) {
+            int amnt = amountLeft >= maxStackSize ? maxStackSize : ((int) amountLeft % maxStackSize);
+            items.add(new ItemStack(material, amnt, data));
+            amountLeft = amountLeft - maxStackSize;
+            if(amountLeft <= 0) break;
+        }
+
+        return items.isEmpty() ? null : items;
     }
 
     @Override
@@ -80,7 +102,6 @@ public class ShopItem implements ConfigurationSerializable {
 
     @Override
     public void deserialize(String relPath, ConfigurationSection section) {
-        MessageUtility.message(PlayerUtility.getOnlinePlayers(), false, "deserialing " + section.getName());
         String rawPathName = section.getName();
 
         if(section.contains("display")) {
@@ -106,6 +127,9 @@ public class ShopItem implements ConfigurationSerializable {
 
         if(section.contains("aliases")) {
             this.aliases = section.getStringList("aliases");
+        }
+        if(section.contains("maxstacksize")) {
+            this.maxStackSize = section.getInt("maxstacksize");
         }
         /*
         String path = "shopitem." + defMat.getId();

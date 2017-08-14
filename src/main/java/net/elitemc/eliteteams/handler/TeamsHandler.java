@@ -9,6 +9,7 @@ import net.elitemc.commons.util.PlayerUtility;
 import net.elitemc.commons.util.scoreboard.V2.Board;
 import net.elitemc.eliteteams.util.team.EliteTeam;
 import net.elitemc.origin.Init;
+import net.elitemc.origin.util.event.PlayerChatEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -44,6 +45,19 @@ public class TeamsHandler extends Handler {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         getPlayerTeam(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onTeamChat(PlayerChatEvent event) {
+        Player player = event.getPlayer();
+        EliteTeam team = null;
+
+        if((team = TeamsHandler.getInstance().getPlayerTeam(player)) != null) {
+            if(team.getTeamChat().contains(player.getUniqueId())) {
+                event.setCancelled(true);
+                team.sendTeamChat(player, event.getMessage());
+            }
+        }
     }
 
     public EliteTeam getPlayerTeam(UUID uid) {

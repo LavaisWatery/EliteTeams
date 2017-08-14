@@ -1,8 +1,6 @@
 package net.elitemc.eliteteams.handler;
 
 import net.elitemc.commons.util.Handler;
-import net.elitemc.commons.util.MessageUtility;
-import net.elitemc.commons.util.PlayerUtility;
 import net.elitemc.eliteteams.configuration.EconomyConfiguration;
 import net.elitemc.eliteteams.util.shop.ShopItem;
 import org.bukkit.inventory.ItemStack;
@@ -52,8 +50,6 @@ public class EconomyHandler extends Handler {
                 shopItems.put(alias, item);
             }
         }
-
-        MessageUtility.message(PlayerUtility.getOnlinePlayers(), false, "Registering item " + item.getDisplay());
     }
 
     public void registerItemAlias(String alias, ShopItem item) {

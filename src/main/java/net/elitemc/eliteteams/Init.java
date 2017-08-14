@@ -192,6 +192,8 @@ public class Init extends AbstractInit {
                 }
             }
         }.runTask(EliteTeams.getInstance());
+
+        initHandler(new NametagHandler(), true);
     }
 
     @Override

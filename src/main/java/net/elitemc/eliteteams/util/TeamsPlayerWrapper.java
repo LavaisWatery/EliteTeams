@@ -7,6 +7,7 @@ import com.mongodb.DBCursor;
 import net.elitemc.commons.handler.BoardHandler;
 import net.elitemc.commons.util.LocationUtility;
 import net.elitemc.commons.util.MessageUtility;
+import net.elitemc.commons.util.PlayerUtility;
 import net.elitemc.commons.util.json.JSONObject;
 import net.elitemc.commons.util.mongo.pooling.PoolAction;
 import net.elitemc.commons.util.scoreboard.V2.Board;
@@ -287,7 +288,7 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
 
                 try {
                     if(fetched.containsKey("state")) playerState = TeamsPlayerState.valueOf(fetched.getString("state"));
-                } catch (Exception ex) { }
+                } catch (Exception ex) {}
 
                 if(fetched.containsKey("description")) description = fetched.getString("description");
 
@@ -454,6 +455,7 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
 
     public void setPlayerState(TeamsPlayerState playerState) {
         this.playerState = playerState;
+        queueAction(PoolAction.SAVE);
         boardHandler.getPlayerBoard(getID()).getBufferedObjective().updateEntry("protection", "");
     }
 

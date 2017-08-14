@@ -25,9 +25,10 @@ public class EconomyConfiguration extends PluginConfiguration {
                         String path = "shopitem." + defMat.getId();
 
                         config.set(path + ".material", defMat.toString());
-                        config.set(path + ".enabled", false);
+                        config.set(path + ".enabled", true);
                         config.set(path + ".price", 5);
                         config.set(path + ".sellmultiplier", .5);
+                        config.set(path + ".maxstacksize", 64);
                         {
                             List<String> al = new ArrayList<String>();
 

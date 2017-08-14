@@ -4,6 +4,7 @@ import net.elitemc.commons.util.*;
 import net.elitemc.commons.util.cmdfrmwrk.BaseCommand;
 import net.elitemc.commons.util.cmdfrmwrk.CommandUsageBy;
 import net.elitemc.commons.util.mongo.pooling.PoolAction;
+import net.elitemc.eliteteams.handler.NametagHandler;
 import net.elitemc.eliteteams.handler.TeamsHandler;
 import net.elitemc.eliteteams.handler.TeamsPlayerHandler;
 import net.elitemc.eliteteams.util.TeamsPlayerWrapper;
@@ -289,6 +290,8 @@ public class Command_team extends BaseCommand {
                 try {
                     targetTeam.sendMassMessage(player.getName() + " has joined the team.");
                     targetTeam.setMember(player);
+                    NametagHandler.getInstance().refreshPlayer(player, targetTeam.getOnlineMemebers().toArray(new Player[]{}));
+                    NametagHandler.getInstance().getPlayerTag(player).apply();
                     MessageUtility.message(player, false, ChatColor.GRAY + "You have joined " + targetTeam.getTeamName() + ".");
                 } catch (TeamAddPlayerException ex) {
                     MessageUtility.message(player, false, ChatColor.RED + ex.getMessage());
@@ -422,8 +425,13 @@ public class Command_team extends BaseCommand {
                     double amount = Double.parseDouble(amountRaw);
 
                     if(amount > 0) {
-                        team.setBalance(team.getBalance() - amount);
-                        team.sendTeamChat(player, "has withdrew " + amount + " from the team Bank Account.");
+                        if((team.getBalance() - amount) >= 0) {
+                            team.setBalance(team.getBalance() - amount);
+                            team.sendTeamChat(player, "has withdrew " + amount + " from the team Bank Account.");
+                        }
+                        else {
+                            MessageUtility.message(player, false, ChatColor.RED + "This team doesn't have that much money.");
+                        }
                     }
                     else {
                         MessageUtility.message(sender, false, ChatColor.RED + "You must withdraw more money.");
@@ -544,6 +552,7 @@ public class Command_team extends BaseCommand {
                         try {
                             team.setManager(targetPlayer.getUniqueId());
                             MessageUtility.message(player, false, ChatColor.GRAY + "You have promoted " + targetPlayer.getName() + ".");
+                            if(targetPlayer.getPlayer() != null) MessageUtility.message(targetPlayer.getPlayer(), false, ChatColor.AQUA + "You have been promoted to team manager.");
                         } catch (TeamAddPlayerException ex) {
                             MessageUtility.message(player, false, ChatColor.RED + ex.getMessage());
                         }
@@ -584,6 +593,7 @@ public class Command_team extends BaseCommand {
                     if(team.getPlayerRanks().get(targetPlayer.getUniqueId()) <= team.getPlayerRanks().get(player.getUniqueId())) {
                         if(team.demotePlayer(targetPlayer.getUniqueId())) {
                             MessageUtility.message(player, false, ChatColor.GRAY + "You have demoted " + targetPlayer.getName() + ".");
+                            if(targetPlayer.getPlayer() != null) MessageUtility.message(targetPlayer.getPlayer(), false, ChatColor.AQUA + "You have been demote.");
                         }
                         else {
                             MessageUtility.message(player, false, ChatColor.RED + "Failed to demote " + targetPlayer.getName() + ".");
@@ -609,6 +619,8 @@ public class Command_team extends BaseCommand {
             EliteTeam team = TeamsHandler.getInstance().getPlayerTeam(player);
 
             team.leave(player.getUniqueId());
+            NametagHandler.getInstance().refreshPlayer(player, team.getOnlineMemebers().toArray(new Player[]{}));
+            NametagHandler.getInstance().getPlayerTag(player).apply();
             team.sendMassMessage(player.getName() + " has left the team.");
             MessageUtility.message(player, false, ChatColor.GRAY + "Left team " + team.getTeamName());
         }
@@ -620,8 +632,12 @@ public class Command_team extends BaseCommand {
             EliteTeam team = TeamsHandler.getInstance().getPlayerTeam(player);
 
             if(team.isOwner(player)) {
-                team.dispose();
+                for(Player pp : team.getOnlineMemebers()) {
+                    NametagHandler.getInstance().getPlayerTag(pp).apply();
+                }
                 MessageUtility.message(player, false, ChatColor.GRAY + "You have disbanded your team.");
+                team.sendMassMessage(ChatColor.DARK_AQUA + player.getName() + " has disbanded the team.");
+                team.dispose();
             }
             else {
                 MessageUtility.message(player, false, ChatColor.RED + "You must be an owner to do disband.");

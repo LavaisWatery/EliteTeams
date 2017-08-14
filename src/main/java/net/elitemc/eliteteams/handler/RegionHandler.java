@@ -10,13 +10,12 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockFromToEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PotionSplashEvent;
@@ -164,18 +163,12 @@ public class RegionHandler extends Handler {
      * Explosion flag
      */
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityExplode(EntityExplodeEvent event) {
-        HashMap<Chunk, RegionSet> sets = new HashMap<>();
         List<Block> clear = new ArrayList<>();
 
         for(Block block : event.blockList()) {
-            Chunk chunk = block.getChunk();
-            RegionSet set = sets.get(chunk);
-
-            if(set == null) {
-                sets.put(chunk, set = getRegionsApplicable(block.getLocation()));
-            }
+            RegionSet set = getRegionsApplicable(block.getLocation());
 
             if(set != null && set.dissallows(FlagType.EXPLOSION)) {
                 clear.add(block);
@@ -230,6 +223,16 @@ public class RegionHandler extends Handler {
             wrapper.setBuilding(false);
     }
 
+    @EventHandler(ignoreCancelled = true)
+    public void onBlockPhysics(EntityChangeBlockEvent event)  {
+        if(event.getEntity() instanceof FallingBlock) {
+            if(getRegionsApplicable(event.getBlock().getLocation()).dissallows(FlagType.FLOW)) {
+                MessageUtility.message(PlayerUtility.getOnlinePlayers(), false, "trigger");
+                event.setCancelled(true);
+            }
+        }
+    }
+
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event){
         Player player = event.getPlayer();
@@ -272,6 +275,24 @@ public class RegionHandler extends Handler {
 
         if(app != null && app.dissallows(FlagType.FLOW)) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPistonPush(BlockPistonExtendEvent event) {
+        List<Block> blocks = new ArrayList<Block>(event.getBlocks());
+        BlockFace dir = event.getDirection();
+        for (int i = 0; i < blocks.size(); i++) {
+            Block block = null;
+            blocks.set(i, block = blocks.get(i).getRelative(dir));
+
+            RegionSet app = getRegionsApplicable(block.getLocation());
+
+            if(app != null && app.dissallows(FlagType.FLOW)) {
+                event.setCancelled(true);
+                return;
+            }
+
         }
     }
 

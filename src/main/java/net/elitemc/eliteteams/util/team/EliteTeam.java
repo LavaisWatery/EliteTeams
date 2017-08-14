@@ -100,6 +100,19 @@ public class EliteTeam extends MongoDataObject {
         return true;
     }
 
+    public List<Player> getOnlineMemebers() {
+        List<Player> ls = new ArrayList<>();
+
+        for(UUID uid : members) {
+            Player player = null;
+            if((player = Bukkit.getPlayer(uid)) != null) {
+                ls.add(player);
+            }
+        }
+
+        return ls;
+    }
+
     public void invitePlayer(UUID invite) throws TeamInvitePlayerException {
         if(TeamsHandler.getInstance().getPlayerTeam(invite) != null) throw new TeamInvitePlayerException(this, invite, "Player is already on a team.");
         boolean invited = false;

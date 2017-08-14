@@ -117,6 +117,8 @@ public class TeamsPlayerHandler extends Handler {
             TeamsPlayerWrapper wrapper = TeamsPlayerHandler.getInstance().getPlayerWrapper(player);
             int maxWarps = RankRewards.DEFAULT.getMaxWarps();
 
+            NametagHandler.getInstance().refreshPlayer(player);
+
             try {
                 RankRewards rewards = RankRewards.valueOf(event.getTo().getGroupName().toUpperCase());
 
@@ -263,15 +265,17 @@ public class TeamsPlayerHandler extends Handler {
                     Player player = (Player)event.getDamager();
 
                     if(event.getEntity() instanceof Player) {
-                        TeamsPlayerHandler.getInstance().getPlayerWrapper((Player) event.getEntity()).scheduleCombat(1000 * 30);
-                        TeamsPlayerHandler.getInstance().getPlayerWrapper(player).scheduleCombat(1000 * 30);
-
                         EliteTeam same = null;
 
                         if((same = TeamsHandler.getInstance().getPlayerTeam(player)) != null && TeamsHandler.getInstance().getPlayerTeam((Player) event.getEntity()) != null) {
                             if(!same.isFriendlyFire()) {
                                 event.setCancelled(true);
                             }
+                        }
+
+                        if(!event.isCancelled()) {
+                            TeamsPlayerHandler.getInstance().getPlayerWrapper((Player) event.getEntity()).scheduleCombat(1000 * 30);
+                            TeamsPlayerHandler.getInstance().getPlayerWrapper(player).scheduleCombat(1000 * 30);
                         }
                     }
                     Iterator<PotionEffect> iterator = player.getActivePotionEffects().iterator();

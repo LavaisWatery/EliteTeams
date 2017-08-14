@@ -1,7 +1,5 @@
 package net.elitemc.eliteteams.command;
 
-import net.elitemc.commons.Commons;
-import net.elitemc.commons.Init;
 import net.elitemc.commons.util.*;
 import net.elitemc.commons.util.cmdfrmwrk.BaseCommand;
 import net.elitemc.commons.util.cmdfrmwrk.CommandUsageBy;
@@ -14,6 +12,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 /**
  * Created by LavaisWatery on 2017-08-09.
  */
@@ -22,7 +22,7 @@ public class Command_buy extends BaseCommand {
     public Command_buy() {
         super("buy", "teams.buy", CommandUsageBy.PLAYER);
         setUsage("/<command> [itemName] [amount]");
-        setArgRange(2, 3);
+        setArgRange(1, 3);
     }
 
     private EconomyHandler handler = EconomyHandler.getInstance();
@@ -50,7 +50,12 @@ public class Command_buy extends BaseCommand {
                 return;
             }
 
-            ItemStack stack = null;
+            if(amount > 2304) {
+                MessageUtility.message(player, false, ChatColor.RED + "You may not buy this amount");
+                return;
+            }
+
+            List<ItemStack> stack = null;
             double buyPrice = -1;
 
             buyPrice = item.getPrice();
@@ -73,14 +78,7 @@ public class Command_buy extends BaseCommand {
                 return;
             }
 
-            int spacesNeeded = 0;
-
-            if (stack.getMaxStackSize() < 2) {
-                spacesNeeded = stack.getAmount();
-            }
-            else {
-                spacesNeeded = stack.getAmount() / 64;
-            }
+            int spacesNeeded = stack.size();
             int freeSpace = InventoryUtility.checkSlotsAvailable(player);
 
             if (freeSpace < spacesNeeded) {
@@ -91,10 +89,13 @@ public class Command_buy extends BaseCommand {
             buyPrice = buyPrice * amount;
 
             if(wrapper.getBalance() >= buyPrice) {
-                player.getInventory().addItem(stack);
+                for(ItemStack is : stack) {
+                    player.getInventory().addItem(is);
+                    player.updateInventory();
+                }
 
                 wrapper.setBalance(wrapper.getBalance() - buyPrice);
-                MessageUtility.message(player, false, ChatColor.GRAY + "You have purchased " + ChatColor.GREEN + InventoryUtility.getFriendlyItemStackName(stack) + ChatColor.GRAY + " for " + ChatColor.GREEN + "$" + NumberUtility.getProperFormat().format(buyPrice) + ChatColor.GRAY + "!");
+                MessageUtility.message(player, false, ChatColor.GRAY + "You have purchased " + ChatColor.GREEN + InventoryUtility.getFriendlyItemStackName(stack.get(0)) + ChatColor.GRAY + " for " + ChatColor.GREEN + "$" + NumberUtility.getProperFormat().format(buyPrice) + ChatColor.GRAY + "!");
             }
             else {
                 MessageUtility.message(player, false, ChatColor.RED + "You don't have enough money for this item. You need " + NumberUtility.getProperFormat().format(buyPrice) + " to purchase this.");
