@@ -10,6 +10,7 @@ import net.elitemc.commons.util.wrapper.MongoDataObjectException;
 import net.elitemc.eliteteams.EliteTeams;
 import net.elitemc.eliteteams.util.*;
 import net.elitemc.eliteteams.util.team.EliteTeam;
+import net.elitemc.origin.handler.WarpHandler;
 import net.elitemc.origin.util.OriginPlayerWrapper;
 import net.elitemc.origin.util.event.OriginPlayerJoinEvent;
 import net.elitemc.origin.util.event.OriginPlayerUpdatedPlaytime;
@@ -19,12 +20,15 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EnderPearl;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.world.PortalCreateEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -65,6 +69,7 @@ public class TeamsPlayerHandler extends Handler {
     private HashMap<String, Integer> toolAmount = new HashMap<String, Integer>();
     private List<BlockFace> faces = new ArrayList<BlockFace>();
 
+    public static int NETHER_PORTAL_DISABLE = 50;
     public static long PEARL_COOLDOWN = (1000 * 5);
 
     @Override
@@ -227,6 +232,40 @@ public class TeamsPlayerHandler extends Handler {
     }
 
     /**
+     * Portal restrictions
+     */
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onBlockIgnite(BlockIgniteEvent event) {
+        if(event.getPlayer().getWorld().getEnvironment() != World.Environment.NETHER || event.getPlayer().isOp()) return;
+        Location spawnLoc = WarpHandler.getInstance().getRespawnLocation(event.getPlayer().getWorld());
+
+        if (spawnLoc.distance(event.getBlock().getLocation()) <= NETHER_PORTAL_DISABLE && (event.getBlock().getType() == Material.OBSIDIAN || event.getBlock().getRelative(BlockFace.DOWN).getType() == Material.OBSIDIAN)) {
+            event.setCancelled(true);
+            MessageUtility.message(PlayerUtility.getOnlinePlayers(), false, ChatColor.RED + "Portal creation is disabled for up to " + NETHER_PORTAL_DISABLE + " blocks.");
+            return;
+        }
+    }
+
+
+    @EventHandler
+    public void onPortalCreate(PortalCreateEvent event) {
+        if(event.getWorld().getEnvironment() == World.Environment.NETHER && !event.getBlocks().isEmpty()) {
+            try {
+                Block block = event.getBlocks().get(0);
+                Location spawnLoc = WarpHandler.getInstance().getRespawnLocation(event.getWorld());
+
+                if(spawnLoc.distance(block.getLocation()) <= 35) {
+                    event.setCancelled(true);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+        }
+    }
+
+    /**
      * Souping
      */
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -274,8 +313,8 @@ public class TeamsPlayerHandler extends Handler {
                         }
 
                         if(!event.isCancelled()) {
-                            TeamsPlayerHandler.getInstance().getPlayerWrapper((Player) event.getEntity()).scheduleCombat(1000 * 30);
-                            TeamsPlayerHandler.getInstance().getPlayerWrapper(player).scheduleCombat(1000 * 30);
+                            TeamsPlayerHandler.getInstance().getPlayerWrapper((Player) event.getEntity()).scheduleCombat((Player) event.getEntity(), 1000 * 30);
+                            TeamsPlayerHandler.getInstance().getPlayerWrapper(player).scheduleCombat(player, 1000 * 30);
                         }
                     }
                     Iterator<PotionEffect> iterator = player.getActivePotionEffects().iterator();
@@ -286,6 +325,27 @@ public class TeamsPlayerHandler extends Handler {
                             event.setDamage(10.0D * event.getDamage() / (10.0D + 13.0D * level) + 13.0D * event.getDamage() * level * 30 / 200.0D / (10.0D + 13.0D * level));
                         }
                     }
+                }
+            }
+        }
+        else if (event.getCause().equals(EntityDamageEvent.DamageCause.PROJECTILE)) {
+            Projectile proj = (Projectile) event.getDamager();
+
+            if(proj.getShooter() instanceof Player && event.getEntity() instanceof Player) {
+                Player shooter = (Player) proj.getShooter();
+                Player damaged = (Player) event.getEntity();
+                EliteTeam same = null;
+
+
+                if((same = TeamsHandler.getInstance().getPlayerTeam(shooter)) != null && TeamsHandler.getInstance().getPlayerTeam(damaged) != null) {
+                    if(!same.isFriendlyFire()) {
+                        event.setCancelled(true);
+                    }
+                }
+
+                if(!event.isCancelled()) {
+                    TeamsPlayerHandler.getInstance().getPlayerWrapper(damaged).scheduleCombat(damaged, 1000 * 30);
+                    TeamsPlayerHandler.getInstance().getPlayerWrapper(shooter).scheduleCombat(shooter, 1000 * 30);
                 }
             }
         }
@@ -318,7 +378,7 @@ public class TeamsPlayerHandler extends Handler {
         broadcastDeath(event);
         wrapper.setBuilding(false);
         wrapper.cleanPearl(player);
-        wrapper.scheduleCombat(-1);
+        wrapper.scheduleCombat(player, -1);
     }
 
     public void broadcastDeath(PlayerDeathEvent event) {

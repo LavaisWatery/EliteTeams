@@ -227,7 +227,6 @@ public class RegionHandler extends Handler {
     public void onBlockPhysics(EntityChangeBlockEvent event)  {
         if(event.getEntity() instanceof FallingBlock) {
             if(getRegionsApplicable(event.getBlock().getLocation()).dissallows(FlagType.FLOW)) {
-                MessageUtility.message(PlayerUtility.getOnlinePlayers(), false, "trigger");
                 event.setCancelled(true);
             }
         }

@@ -217,6 +217,7 @@ public class Init extends AbstractInit {
         registerCommand("sets", new Command_sets());
         registerCommand("build", new Command_build());
         registerCommand("alter", new Command_alter());
+        registerCommand("goas", new Command_goas());
     }
 
     @Override

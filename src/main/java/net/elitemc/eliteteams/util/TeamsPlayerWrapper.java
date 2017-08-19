@@ -139,13 +139,31 @@ public class TeamsPlayerWrapper extends DataPlayerWrapper {
         return combatTimer;
     }
 
-    public void scheduleCombat(long time) {
+    public void scheduleCombat(Player player, long time) {
         this.combatTimer = System.currentTimeMillis() + time;
         if(time > 0) {
-            BoardHandler.getInstance().getPlayerBoard(getID()).getBoardEntries().get("combattimer").showForTime(time);
+            if(player != null && player.isDead()) return;
+            Board board = null;
+
+            if((board = BoardHandler.getInstance().getPlayerBoard(getID())) != null) {
+                BoardEntry entry = board.getBoardEntries().get("combattimer");
+
+                if(entry != null) {
+                    entry.showForTime(time);
+                }
+            }
         }
         else {
-            BoardHandler.getInstance().getPlayerBoard(getID()).getBoardEntries().get("combattimer").getShower().cancel();
+            this.combatTimer = -1;
+            Board board = null;
+
+            if((board = BoardHandler.getInstance().getPlayerBoard(getID())) != null) {
+                BoardEntry entry = board.getBoardEntries().get("combattimer");
+
+                if(entry != null && entry.getShower() != null) {
+                    entry.getShower().cancel();
+                }
+            }
         }
     }
 

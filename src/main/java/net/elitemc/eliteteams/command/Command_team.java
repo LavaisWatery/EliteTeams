@@ -471,7 +471,7 @@ public class Command_team extends BaseCommand {
                 }
             });
         }
-        else if(args[0].equalsIgnoreCase("hq")) {
+        else if(args[0].equalsIgnoreCase("rally")) {
             if(TeamsHandler.getInstance().getPlayerTeam(player) == null) {
                 MessageUtility.message(player, false, ChatColor.RED + "You aren't on a team.");
                 return;

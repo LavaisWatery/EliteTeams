@@ -36,6 +36,46 @@ public class PlayerWarps implements JsonSerializable {
 
     private HashMap<String, PlayerWarp> playerWarps = new HashMap<>();
 
+    public void forceOverrideWarp(Player player, String indexName) {
+        { // override
+            PlayerWarp warp = getPlayerWarp(indexName);
+
+            if(warp != null) {
+                Location loc = player.getLocation();
+
+                if(warp.isDestroyed()) {
+                    MessageUtility.message(player, false, ChatColor.RED + "This warp is destroyed.");
+                    return;
+                }
+
+                warp.setX(loc.getX());
+                warp.setY(loc.getY());
+                warp.setZ(loc.getZ());
+                warp.setYaw(loc.getYaw());
+                warp.setPitch(loc.getPitch());
+                MessageUtility.message(player, false, "overrode warp");
+
+                return;
+            }
+        }
+
+        if(playerWarps.size() >= wrapper.getMax_warps()) {
+            MessageUtility.message(player, false, MAX_WARPS_SET);
+            return;
+        }
+
+        try {
+            PlayerWarp warp = addWarp(indexName, player.getLocation());
+
+            if(warp != null) {
+                MessageUtility.message(player, false, ChatColor.DARK_AQUA + "Warp '" + ChatColor.GRAY + indexName + ChatColor.DARK_AQUA + "' created at location " + ChatColor.GRAY + warp.getX() + ChatColor.DARK_AQUA + "," + ChatColor.GRAY + warp.getY() + ChatColor.DARK_AQUA + "," + ChatColor.GRAY + warp.getZ() + ChatColor.DARK_AQUA + ".");
+            }
+        } catch (PlayerCreateWarpException ex) {
+            MessageUtility.message(player, false, ex.getMessage());
+            return;
+        }
+    }
+
     public void addPlayerWarp(Player player, String indexName) {
         { // override
             PlayerWarp warp = getPlayerWarp(indexName);
